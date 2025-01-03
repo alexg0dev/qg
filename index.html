@@ -45,6 +45,9 @@
       color: var(--q4g-white);
       line-height: 1.6;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     
     a {
@@ -291,6 +294,44 @@
       transform: translateY(-3px);
     }
     
+    /* Hide auth-buttons when signed in */
+    .auth-buttons.hidden {
+      display: none;
+    }
+    
+    /* User Info Section in Header */
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--q4g-orange);
+      cursor: pointer; /* Indicate that it's clickable */
+      transition: transform var(--transition-speed) ease;
+    }
+
+    .user-info img:hover {
+      transform: scale(1.1);
+    }
+
+    .user-info span {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--q4g-white);
+    }
+
+    /* Hide user-info by default */
+    .user-info.hidden {
+      display: none;
+    }
+    
     /* Hero Section */
     .hero {
       position: relative;
@@ -322,6 +363,7 @@
       /* Add shadow effect to video */
       box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
       transition: transform var(--transition-speed) ease;
+      z-index: -1; /* Ensure video is behind other elements */
     }
     
     .hero .swiper-slide video:hover {
@@ -337,11 +379,11 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.4); /* Reduced opacity for better visibility */
-      z-index: 1;
+      z-index: 0; /* Positioned below hero-content */
     }
     
     .hero-content {
-      z-index: 2; /* Ensure content is above the overlay */
+      z-index: 2; /* Ensure content is above the overlay and video */
       max-width: 800px;
       padding: 0 1rem;
       animation: fadeInUp 1s ease-out;
@@ -791,9 +833,9 @@
       left: -50%;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--q4g-orange);
+      transition: all var(--transition-speed) ease;
       transform: skewX(-45deg);
-      transition: transform var(--transition-speed) ease;
     }
     
     .register-btn:hover::after {
@@ -804,19 +846,6 @@
       background: linear-gradient(45deg, #e65a00, #ff7f50);
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-    }
-    
-    /* Pulse Animation for Register Button */
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0.7);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(255, 103, 0, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0);
-      }
     }
     
     /* Our Divisions Section */
@@ -976,6 +1005,7 @@
       position: relative;
       animation: fadeInUp 1s ease-out;
       z-index: 100;
+      margin-top: auto; /* Push footer to the bottom */
     }
     
     .footer-nav, .social-links {
@@ -1225,6 +1255,9 @@
         flex-direction: column;
         gap: 0.3rem;
       }
+      .user-info {
+        display: none; /* Hide user info on smaller screens if needed */
+      }
     }
   </style>
 </head>
@@ -1248,7 +1281,8 @@
         <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
       </ul>
       <div class="auth-buttons">
-        <a href="#signin"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <!-- Modified Sign In button to trigger Discord sign-in -->
+        <a href="#" id="discordSignIn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
         <a href="#signup"><i class="fas fa-user-plus"></i> Sign Up</a>
       </div>
       <div class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -1257,6 +1291,13 @@
         <div></div>
       </div>
     </nav>
+    
+    <!-- User Info (hidden by default) -->
+    <div class="user-info hidden" id="userInfo">
+      <!-- Profile Picture wrapped in a link -->
+      <a href="#" id="userProfileLink"><img src="" alt="User Profile Picture" id="userProfilePic"></a>
+      <span id="userName"></span>
+    </div>
     
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobile-menu">
@@ -1268,147 +1309,151 @@
         <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
       </ul>
       <div class="auth-buttons">
-        <a href="#signin"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <!-- Modified Mobile Sign In button to trigger Discord sign-in -->
+        <a href="#" id="mobileDiscordSignIn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
         <a href="#signup"><i class="fas fa-user-plus"></i> Sign Up</a>
       </div>
     </div>
   </header>
   
-  <!-- HERO SECTION -->
-  <section class="hero" id="hero">
-    <!-- Swiper -->
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide">
-          <video autoplay muted loop playsinline>
-            <source src="clip1.mp4" type="video/mp4">
-          </video>
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero">
+      <!-- Swiper -->
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <!-- Slides -->
+          <div class="swiper-slide">
+            <video autoplay muted loop playsinline>
+              <source src="clip1.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="swiper-slide">
+            <video autoplay muted loop playsinline>
+              <source src="clip2.mp4" type="video/mp4">
+            </video>
+          </div>
+          <!-- Add more slides as needed -->
         </div>
-        <div class="swiper-slide">
-          <video autoplay muted loop playsinline>
-            <source src="clip2.mp4" type="video/mp4">
-          </video>
-        </div>
-        <!-- Add more slides as needed -->
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
       </div>
-      <!-- Pagination -->
-      <div class="swiper-pagination"></div>
-    </div>
+      
+      <!-- Decorative SVG Shape -->
+      <svg class="decorative-shape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="50" fill="#FF6700" opacity="0.3"/>
+      </svg>
+      
+      <div class="hero-content" data-aos="fade-up">
+        <h1>Welcome to Quest for Glory</h1>
+        <p>Revolutionizing Pro Clubs to Make It the Best in North America.</p>
+        <a class="cta-btn" href="#becomePlayer"><i class="fas fa-play"></i> Get to Playing</a>
+      </div>
+    </section>
     
-    <!-- Decorative SVG Shape -->
-    <svg class="decorative-shape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="50" fill="#FF6700" opacity="0.3"/>
-    </svg>
+    <!-- PARTNERS SLIDESHOW -->
+    <section class="partners-section" data-aos="fade-up">
+      <h2>Our Partners</h2>
+      <div class="swiper-container partner-carousel">
+        <div class="swiper-wrapper">
+          <!-- Partner Logos -->
+          <div class="swiper-slide"><img src="psv.png" alt="Partner 1"></div>
+          <div class="swiper-slide"><img src="psf.png" alt="Partner 2"></div>
+          <div class="swiper-slide"><img src="dortmund.png" alt="Partner 3"></div>
+          <div class="swiper-slide"><img src="intermiami.png" alt="Partner 4"></div>
+          <!-- Add more partners as needed -->
+        </div>
+        <!-- Optional Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
     
-    <div class="hero-content" data-aos="fade-up">
-      <h1>Welcome to Quest for Glory</h1>
-      <p>Revolutionizing Pro Clubs to Make It the Best in North America.</p>
-      <a class="cta-btn" href="#becomePlayer"><i class="fas fa-play"></i> Get to Playing</a>
-    </div>
-  </section>
-  
-  <!-- PARTNERS SLIDESHOW -->
-  <section class="partners-section" data-aos="fade-up">
-    <h2>Our Partners</h2>
-    <div class="swiper-container partner-carousel">
-      <div class="swiper-wrapper">
-        <!-- Partner Logos -->
-        <div class="swiper-slide"><img src="psv.png" alt="Partner 1"></div>
-        <div class="swiper-slide"><img src="psf.png" alt="Partner 2"></div>
-        <div class="swiper-slide"><img src="dortmund.png" alt="Partner 3"></div>
-        <div class="swiper-slide"><img src="intermiami.png" alt="Partner 4"></div>
-        <!-- Add more partners as needed -->
-      </div>
-      <!-- Optional Pagination -->
-      <div class="swiper-pagination"></div>
-    </div>
-  </section>
-  
-  <!-- ABOUT QUEST FOR GLORY -->
-  <section class="about-section" data-aos="fade-up">
-    <h2>Why Play with Us?</h2>
-    <div class="cards-container">
-      <div class="qg-card" data-aos="zoom-in" data-aos-delay="100">
-        <h3><i class="fas fa-dollar-sign"></i> Earn Huge Cash Prizes</h3>
-        <p>Compete in the top Pro Clubs tournaments with up to $2,000 in cash prizes.</p>
-      </div>
-      <div class="qg-card" data-aos="zoom-in" data-aos-delay="200">
-        <h3><i class="fas fa-handshake"></i> Be Good, Get Partnered</h3>
-        <p>Showcase your skills and become an official partner or sponsor-affiliated player.</p>
-      </div>
-      <div class="qg-card" data-aos="zoom-in" data-aos-delay="300">
-        <h3><i class="fas fa-globe"></i> Join the Biggest League</h3>
-        <p>Quest for Glory hosts an epic league featuring players from North America and beyond.</p>
-      </div>
-    </div>
-  </section>
-  
-  <!-- BECOME A PLAYER SECTION -->
-  <section class="player-section" id="becomePlayer" data-aos="fade-up">
-    <h2>Become a Player</h2>
-    <div class="steps-container">
-      <div class="step" data-aos="fade-right" data-aos-delay="100">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <h4><i class="fas fa-users"></i> Join Our Discord Server</h4>
-          <p>Connect with players and teams, and get official updates.</p>
+    <!-- ABOUT QUEST FOR GLORY -->
+    <section class="about-section" data-aos="fade-up">
+      <h2>Why Play with Us?</h2>
+      <div class="cards-container">
+        <div class="qg-card" data-aos="zoom-in" data-aos-delay="100">
+          <h3><i class="fas fa-dollar-sign"></i> Earn Huge Cash Prizes</h3>
+          <p>Compete in the top Pro Clubs tournaments with up to $2,000 in cash prizes.</p>
+        </div>
+        <div class="qg-card" data-aos="zoom-in" data-aos-delay="200">
+          <h3><i class="fas fa-handshake"></i> Be Good, Get Partnered</h3>
+          <p>Showcase your skills and become an official partner or sponsor-affiliated player.</p>
+        </div>
+        <div class="qg-card" data-aos="zoom-in" data-aos-delay="300">
+          <h3><i class="fas fa-globe"></i> Join the Biggest League</h3>
+          <p>Quest for Glory hosts an epic league featuring players from North America and beyond.</p>
         </div>
       </div>
-      <div class="step" data-aos="fade-left" data-aos-delay="200">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <h4><i class="fas fa-gamepad"></i> Pick Your Console</h4>
-          <p>Available for both PlayStation and Xbox. More platforms coming soon!</p>
+    </section>
+    
+    <!-- BECOME A PLAYER SECTION -->
+    <section class="player-section" id="becomePlayer" data-aos="fade-up">
+      <h2>Become a Player</h2>
+      <div class="steps-container">
+        <div class="step" data-aos="fade-right" data-aos-delay="100">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4><i class="fas fa-users"></i> Join Our Discord Server</h4>
+            <p>Connect with players and teams, and get official updates.</p>
+          </div>
+        </div>
+        <div class="step" data-aos="fade-left" data-aos-delay="200">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4><i class="fas fa-gamepad"></i> Pick Your Console</h4>
+            <p>Available for both PlayStation and Xbox. More platforms coming soon!</p>
+          </div>
+        </div>
+        <div class="step" data-aos="fade-right" data-aos-delay="300">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4><i class="fas fa-user-tag"></i> Choose Your Role</h4>
+            <p>Whether you’re a free agent or a returning champion, we’ve got a place for you.</p>
+          </div>
+        </div>
+        <div class="step" data-aos="fade-left" data-aos-delay="400">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4><i class="fas fa-clipboard-check"></i> Announce Your Skills</h4>
+            <p>Post in the Free Agent chat with your experience, gamertag, and position. Get scouted!</p>
+          </div>
+        </div>
+        <a class="discord-btn" href="https://discord.gg/example" target="_blank" aria-label="Join Quest for Glory Discord Server">
+          <i class="fab fa-discord"></i> Join Discord
+        </a>
+      </div>
+    </section>
+    
+    <!-- OUR DIVISIONS SECTION -->
+    <section class="divisions-section" data-aos="fade-up">
+      <h2>Our Divisions</h2>
+      <div class="divisions-container">
+        <!-- Division 1 -->
+        <div class="division-card" data-aos="zoom-in" data-aos-delay="100">
+          <h3>Division 1</h3>
+          <p><strong>Price:</strong> $8.99</p>
+          <p>Compete at the highest level with the best players. Exclusive rewards and recognition await.</p>
+          <a href="#applyDiv1" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
+        </div>
+        <!-- Division 2 -->
+        <div class="division-card" data-aos="zoom-in" data-aos-delay="200">
+          <h3>Division 2</h3>
+          <p><strong>Price:</strong> $6.99</p>
+          <p>Join a competitive yet accessible tier. Improve your skills and climb the ranks.</p>
+          <a href="#applyDiv2" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
+        </div>
+        <!-- Division 3 -->
+        <div class="division-card" data-aos="zoom-in" data-aos-delay="300">
+          <h3>Division 3</h3>
+          <p><strong>Price:</strong> Free</p>
+          <p>Perfect for newcomers and casual players. Experience the thrill without any entry fee.</p>
+          <a href="#applyDiv3" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
         </div>
       </div>
-      <div class="step" data-aos="fade-right" data-aos-delay="300">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <h4><i class="fas fa-user-tag"></i> Choose Your Role</h4>
-          <p>Whether you’re a free agent or a returning champion, we’ve got a place for you.</p>
-        </div>
-      </div>
-      <div class="step" data-aos="fade-left" data-aos-delay="400">
-        <div class="step-number">4</div>
-        <div class="step-content">
-          <h4><i class="fas fa-clipboard-check"></i> Announce Your Skills</h4>
-          <p>Post in the Free Agent chat with your experience, gamertag, and position. Get scouted!</p>
-        </div>
-      </div>
-      <a class="discord-btn" href="https://discord.gg/example" target="_blank" aria-label="Join Quest for Glory Discord Server">
-        <i class="fab fa-discord"></i> Join Discord
-      </a>
-    </div>
-  </section>
-  
-  <!-- OUR DIVISIONS SECTION -->
-  <section class="divisions-section" data-aos="fade-up">
-    <h2>Our Divisions</h2>
-    <div class="divisions-container">
-      <!-- Division 1 -->
-      <div class="division-card" data-aos="zoom-in" data-aos-delay="100">
-        <h3>Division 1</h3>
-        <p><strong>Price:</strong> $8.99</p>
-        <p>Compete at the highest level with the best players. Exclusive rewards and recognition await.</p>
-        <a href="#applyDiv1" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
-      </div>
-      <!-- Division 2 -->
-      <div class="division-card" data-aos="zoom-in" data-aos-delay="200">
-        <h3>Division 2</h3>
-        <p><strong>Price:</strong> $6.99</p>
-        <p>Join a competitive yet accessible tier. Improve your skills and climb the ranks.</p>
-        <a href="#applyDiv2" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
-      </div>
-      <!-- Division 3 -->
-      <div class="division-card" data-aos="zoom-in" data-aos-delay="300">
-        <h3>Division 3</h3>
-        <p><strong>Price:</strong> Free</p>
-        <p>Perfect for newcomers and casual players. Experience the thrill without any entry fee.</p>
-        <a href="#applyDiv3" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
   
   <!-- FOOTER -->
   <footer>
@@ -1555,34 +1600,107 @@
       });
     });
     
-    // Countdown Timer Script
-    // Set the date and time for the next tournament (e.g., Dec 31, 2024)
-    const tournamentDate = new Date("Dec 31, 2024 23:59:59").getTime();
-
-    // Update the countdown every second
-    const countdownFunction = setInterval(function() {
+    // Discord Sign-In Mock Functionality
+    const discordSignInButtons = document.querySelectorAll('#discordSignIn, #mobileDiscordSignIn');
+    const userInfo = document.getElementById('userInfo');
+    const userNameSpan = document.getElementById('userName');
+    const userProfilePic = document.getElementById('userProfilePic');
+    const userProfileLink = document.getElementById('userProfileLink');
+    const authButtons = document.querySelectorAll('.auth-buttons'); // Select all auth-buttons (desktop and mobile)
+    
+    // Mock user data (replace with actual data from Discord API when backend is ready)
+    const mockUser = {
+      username: "Gamer123",
+      avatarURL: "https://cdn.discordapp.com/embed/avatars/0.png" // Placeholder image
+    };
+    
+    // Function to display user info
+    function displayUserInfo(user) {
+      userNameSpan.textContent = user.username;
+      userProfilePic.src = user.avatarURL;
+      userProfileLink.href = `/${encodeURIComponent(user.username)}`; // Redirect to /username
+      userInfo.classList.remove('hidden');
       
-      const now = new Date().getTime();
-      const distance = tournamentDate - now;
+      // Hide all auth-buttons
+      authButtons.forEach(button => button.classList.add('hidden'));
+    }
+    
+    // Function to hide user info
+    function hideUserInfo() {
+      userInfo.classList.add('hidden');
+      userNameSpan.textContent = "";
+      userProfilePic.src = "";
+      userProfileLink.href = "#";
       
-      // Time calculations for days, hours, minutes, and seconds
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      
-      // Display the result in the corresponding elements
-      document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-      document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-      document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-      document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-      
-      // If the countdown is finished, display a message
-      if (distance < 0) {
-        clearInterval(countdownFunction);
-        document.getElementById("countdown").innerHTML = "Tournament Started!";
+      // Show all auth-buttons
+      authButtons.forEach(button => button.classList.remove('hidden'));
+    }
+    
+    // Function to handle sign-in
+    function handleSignIn() {
+      // In a real scenario, initiate Discord OAuth flow here
+      // For mock, we'll use predefined user data
+      displayUserInfo(mockUser);
+      // Store user data in localStorage to persist across sessions
+      localStorage.setItem('q4gUser', JSON.stringify(mockUser));
+    }
+    
+    // Function to handle sign-out (optional, for testing)
+    function handleSignOut() {
+      hideUserInfo();
+      localStorage.removeItem('q4gUser');
+    }
+    
+    // Attach event listeners to Discord Sign-In buttons
+    discordSignInButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleSignIn();
+      });
+    });
+    
+    // On page load, check if user is already signed in
+    window.addEventListener('DOMContentLoaded', () => {
+      const storedUser = localStorage.getItem('q4gUser');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        displayUserInfo(user);
       }
-    }, 1000);
+    });
+    
+    // Countdown Timer Script
+    // Ensure that countdown elements exist before trying to manipulate them
+    document.addEventListener('DOMContentLoaded', () => {
+      const countdownElement = document.getElementById("countdown");
+      if (countdownElement) {
+        const tournamentDate = new Date("Dec 31, 2024 23:59:59").getTime();
+    
+        // Update the countdown every second
+        const countdownFunction = setInterval(function() {
+          
+          const now = new Date().getTime();
+          const distance = tournamentDate - now;
+          
+          // Time calculations for days, hours, minutes, and seconds
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          
+          // Display the result in the corresponding elements
+          document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+          document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+          document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+          document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+          
+          // If the countdown is finished, display a message
+          if (distance < 0) {
+            clearInterval(countdownFunction);
+            countdownElement.innerHTML = "Tournament Started!";
+          }
+        }, 1000);
+      }
+    });
   </script>
   
 </body>
