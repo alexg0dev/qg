@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
   
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-dXjIhkB3gjhGk2efUxBkxVbXT1hGpxcZc9JbHuEwB0RWp5DqE3qPbs/XE5oZYIu2mkQhFqqAmkMaZ0kz2Zb3uQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
   <!-- Swiper.js CSS -->
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
@@ -32,7 +32,9 @@
       --button-height: 50px;
     }
     
-    /* CSS Reset */
+    /* ---------------------------------------------------------- */
+    /* GLOBAL & RESET */
+    /* ---------------------------------------------------------- */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -55,7 +57,6 @@
       color: inherit;
       transition: color var(--transition-speed) ease;
     }
-    
     a:hover {
       color: var(--q4g-orange);
     }
@@ -65,7 +66,9 @@
       display: block;
     }
     
-    /* Header */
+    /* ---------------------------------------------------------- */
+    /* HEADER */
+    /* ---------------------------------------------------------- */
     header {
       position: fixed;
       top: 0;
@@ -79,18 +82,15 @@
       transition: background var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-    
     header.scrolled {
       background: var(--q4g-black);
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
-    
     .brand {
       display: flex;
       align-items: center;
       animation: fadeInDown 1s ease-out;
     }
-    
     .brand-logo img {
       width: 60px;
       height: auto;
@@ -98,36 +98,30 @@
       border-radius: 8px;
       transition: transform var(--transition-speed) ease;
     }
-    
     .brand-logo img:hover {
       transform: scale(1.05);
     }
-    
     .brand-text {
       color: var(--q4g-orange);
       font-size: 1.8rem;
       font-family: var(--q4g-font-heading);
       font-weight: 700;
       letter-spacing: 1px;
-      /* Removed hover underline */
       animation: fadeInUp 1s ease-out;
-      /* Make it non-interactive */
       pointer-events: none;
     }
     
     nav {
       display: flex;
       align-items: center;
+      gap: 1rem;
     }
-    
     .nav-links {
       list-style: none;
       display: flex;
       gap: 1.5rem;
-      margin-right: 2rem;
       animation: fadeInUp 1s ease-out;
     }
-    
     .nav-links li a {
       font-size: 1rem;
       font-weight: 600;
@@ -138,7 +132,6 @@
       position: relative;
       padding: 0.5rem;
     }
-    
     .nav-links li a::after {
       content: '';
       width: 0%;
@@ -149,11 +142,9 @@
       left: 0;
       transition: width var(--transition-speed) ease;
     }
-    
     .nav-links li a:hover::after {
       width: 100%;
     }
-    
     .nav-links li a:hover {
       color: var(--q4g-orange);
       transform: translateY(-3px);
@@ -168,15 +159,13 @@
       z-index: 1100;
       animation: fadeInUp 1s ease-out;
     }
-    
     .hamburger div {
       width: 25px;
       height: 3px;
       background: var(--q4g-white);
       transition: all var(--transition-speed) ease;
     }
-    
-    /* Hamburger Animation */
+    /* Hamburger Active Animation */
     .hamburger.active div:nth-child(1) {
       transform: rotate(45deg) translate(5px, 5px);
     }
@@ -202,24 +191,21 @@
       transition: right var(--transition-speed) ease;
       gap: 2rem;
       z-index: 999;
+      visibility: hidden;
+      opacity: 0;
+      transition: right var(--transition-speed) ease, opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
     }
-    
-    /* Apply animation only when open */
     .mobile-menu.open {
       right: 0;
+      visibility: visible;
+      opacity: 1;
       animation: slideInRight 0.5s forwards;
     }
     
-    /* Define the slideInRight animation */
     @keyframes slideInRight {
-      from {
-        right: -100%;
-      }
-      to {
-        right: 0;
-      }
+      from { right: -100%; }
+      to   { right: 0; }
     }
-    
     .mobile-menu ul {
       list-style: none;
       display: flex;
@@ -227,15 +213,13 @@
       gap: 1.5rem;
       text-align: center;
     }
-    
     .mobile-menu a {
       font-size: 1.5rem;
       font-weight: 600;
       color: var(--q4g-white);
-      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
       position: relative;
+      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
     }
-    
     .mobile-menu a::after {
       content: '';
       width: 0%;
@@ -246,20 +230,17 @@
       left: 0;
       transition: width var(--transition-speed) ease;
     }
-    
     .mobile-menu a:hover::after {
       width: 100%;
     }
-    
     .mobile-menu a:hover {
       color: var(--q4g-orange);
       transform: translateX(10px);
     }
     
-    /* Sign In & Sign Up Buttons */
-    .auth-buttons a {
-      margin-left: 1rem;
-      padding: 0.5rem 1rem;
+    /* Login Button */
+    .login-btn {
+      padding: 0.5rem 1.5rem;
       border: 2px solid var(--q4g-orange);
       border-radius: 25px;
       color: var(--q4g-orange);
@@ -271,68 +252,69 @@
       height: var(--button-height);
       position: relative;
       overflow: hidden;
+      background: none;
+      cursor: pointer;
+      font-family: var(--q4g-font-heading);
+      font-size: 1rem;
+      text-decoration: none;
     }
-    
-    .auth-buttons a::before {
+    .auth-buttons a {
+      font-family: var(--q4g-font-heading);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: var(--button-height);
+    }
+    .auth-buttons a::before, 
+    .auth-buttons button::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
       background: var(--q4g-orange);
       transition: all var(--transition-speed) ease;
       transform: skewX(-45deg);
+      z-index: -1;
     }
-    
-    .auth-buttons a:hover::before {
+    .auth-buttons a:hover::before,
+    .auth-buttons button:hover::before {
       left: 0;
     }
-    
-    .auth-buttons a:hover {
+    .auth-buttons a:hover,
+    .auth-buttons button:hover {
       color: var(--q4g-white);
       transform: translateY(-3px);
     }
-    
-    /* Hide auth-buttons when signed in */
     .auth-buttons.hidden {
       display: none;
     }
     
-    /* User Info Section in Header */
+    /* User Info in Header */
     .user-info {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       animation: fadeInUp 1s ease-out;
     }
-
     .user-info img {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid var(--q4g-orange);
-      cursor: pointer; /* Indicate that it's clickable */
+      cursor: pointer;
       transition: transform var(--transition-speed) ease;
     }
-
     .user-info img:hover {
       transform: scale(1.1);
     }
-
     .user-info span {
       font-size: 1rem;
       font-weight: 600;
       color: var(--q4g-white);
     }
-
-    /* Hide user-info by default */
     .user-info.hidden {
       display: none;
     }
-    
-    /* Sign-Out Button Styles */
     #signOutButton {
       margin-left: 1rem;
       padding: 0.5rem 1rem;
@@ -344,79 +326,66 @@
       cursor: pointer;
       transition: background var(--transition-speed) ease, transform var(--transition-speed) ease;
     }
-    
     #signOutButton:hover {
       background: #cc0000;
       transform: translateY(-3px);
     }
-
-    /* Hero Section */
+    
+    /* ---------------------------------------------------------- */
+    /* HERO SECTION */
+    /* ---------------------------------------------------------- */
     .hero {
       position: relative;
       width: 100%;
-      height: calc(100vh - 80px); /* Adjusted for header height */
+      height: calc(100vh - 80px);
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--q4g-white);
       text-align: center;
-      margin-top: 80px; /* Space for header */
-      background: #000; /* Fallback background */
+      margin-top: 80px;
+      background: #000;
       animation: fadeIn 1.5s ease-out;
     }
-    
     .hero .swiper-container {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
     }
-    
     .hero .swiper-slide video {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
-      /* Add shadow effect to video */
       box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
       transition: transform var(--transition-speed) ease;
-      z-index: -1; /* Ensure video is behind other elements */
-      pointer-events: none; /* Prevent video from capturing hover events */
+      z-index: -1;
+      pointer-events: none;
     }
-    
     .hero .swiper-slide video:hover {
       transform: scale(1.05);
     }
-    
-    /* Video Overlay */
     .hero::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4); /* Reduced opacity for better visibility */
-      z-index: 0; /* Positioned below hero-content */
-      pointer-events: none; /* Allow clicks to pass through */
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+      pointer-events: none;
     }
-    
     .hero-content {
-      z-index: 2; /* Ensure content is above the overlay and video */
+      z-index: 2;
       max-width: 800px;
       padding: 0 1rem;
       animation: fadeInUp 1s ease-out;
       display: flex;
       flex-direction: column;
-      align-items: center; /* Center the content */
+      align-items: center;
       transition: transform var(--transition-speed) ease;
     }
-    
     .hero-content:hover {
       transform: scale(1.02);
     }
-    
     .hero-content h1 {
       font-family: var(--q4g-font-heading);
       font-size: 3rem;
@@ -424,58 +393,48 @@
       animation: slideInDown 1s ease-out;
       text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
     }
-    
     .hero-content p {
       font-size: 1.3rem;
       margin-bottom: 2rem;
       animation: fadeIn 1.5s ease-out;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
     }
-    
     .cta-btn {
       padding: 0.75rem 2rem;
       color: var(--q4g-white);
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 1.1rem;
+      font-weight: 700;
       border: none;
-      border-radius: 30px; /* Increased border-radius for modern look */
+      border-radius: 30px;
       cursor: pointer;
       transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       text-decoration: none;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      /* Enhanced visuals */
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
       background: linear-gradient(45deg, var(--q4g-orange), #ff8f00);
       position: relative;
       overflow: hidden;
       animation: pulse 2s infinite;
     }
-    
     .cta-btn::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: -50%;
-      width: 100%;
-      height: 100%;
+      top: 0; left: -50%;
+      width: 100%; height: 100%;
       background: rgba(255, 255, 255, 0.1);
       transform: skewX(-45deg);
       transition: transform var(--transition-speed) ease;
     }
-    
     .cta-btn:hover::after {
       transform: translateX(100%) skewX(-45deg);
     }
-    
     .cta-btn:hover {
       background: linear-gradient(45deg, #e65a00, #ff7f50);
       transform: translateY(-5px);
-      box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.5);
     }
-    
-    /* Pulse Animation for CTA Button */
     @keyframes pulse {
       0% {
         box-shadow: 0 0 0 0 rgba(255, 103, 0, 0.7);
@@ -487,8 +446,6 @@
         box-shadow: 0 0 0 0 rgba(255, 103, 0, 0);
       }
     }
-    
-    /* Decorative SVG Shape */
     .hero .decorative-shape {
       position: absolute;
       bottom: 10%;
@@ -498,27 +455,21 @@
       z-index: 1;
       animation: float 6s ease-in-out infinite;
     }
-    
-    /* Float Animation for Decorative Shape */
     @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-20px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
     }
     
-    /* Partners Slideshow */
+    /* ---------------------------------------------------------- */
+    /* PARTNERS SLIDESHOW */
+    /* ---------------------------------------------------------- */
     .partners-section {
       background: #141414;
       padding: 4rem 2rem;
       text-align: center;
       animation: fadeInUp 1s ease-out;
-      position: relative;
       overflow: hidden;
     }
-    
     .partners-section h2 {
       font-family: var(--q4g-font-heading);
       font-size: 2rem;
@@ -527,7 +478,6 @@
       display: inline-block;
       color: var(--q4g-orange);
     }
-    
     .partners-section h2::after {
       content: '';
       width: 60px;
@@ -539,13 +489,11 @@
       transform: translateX(-50%);
       border-radius: 2px;
     }
-    
     .partner-carousel .swiper-slide {
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    
     .partner-carousel img {
       height: 80px;
       width: auto;
@@ -553,115 +501,25 @@
       transition: filter var(--transition-speed) ease, transform var(--transition-speed) ease;
       border-radius: 8px;
     }
-    
     .partner-carousel img:hover {
       filter: grayscale(0%);
       transform: scale(1.1);
     }
     
-    /* About Section */
-    .about-section {
-      background: var(--q4g-black);
-      padding: 4rem 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      animation: fadeInUp 1s ease-out;
-    }
+    /* ---------------------------------------------------------- */
+    /* REMOVED: "Why Play with Us?" SECTION */
+    /* ---------------------------------------------------------- */
     
-    .about-section h2 {
-      font-family: var(--q4g-font-heading);
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      position: relative;
-      display: inline-block;
-      color: var(--q4g-orange);
-    }
-    
-    .about-section h2::after {
-      content: '';
-      width: 60px;
-      height: 4px;
-      background: var(--q4g-orange);
-      position: absolute;
-      left: 50%;
-      bottom: -15px;
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
-    
-    .cards-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      max-width: 1200px;
-      justify-content: center;
-    }
-    
-    .qg-card {
-      background: var(--q4g-gray);
-      width: 300px;
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      /* Added transform origin for better hover effect */
-      transform-origin: top;
-      animation: fadeInUp 1s ease-out;
-    }
-    
-    .qg-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: var(--q4g-orange);
-      opacity: 0;
-      transition: opacity var(--transition-speed) ease;
-      transform: rotate(45deg);
-    }
-    
-    .qg-card:hover::before {
-      opacity: 0.1;
-    }
-    
-    .qg-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 20px rgba(255, 103, 0, 0.3);
-    }
-    
-    .qg-card h3 {
-      color: var(--q4g-orange);
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      font-family: var(--q4g-font-heading);
-    }
-    
-    .qg-card p {
-      color: var(--q4g-light-gray);
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-    
-    /* Become a Player Section */
+    /* ---------------------------------------------------------- */
+    /* BECOME A PLAYER SECTION (Improved) */
+    /* ---------------------------------------------------------- */
     .player-section {
-      background: #111111;
-      padding: 4rem 2rem;
+      background: radial-gradient(circle, rgba(255,103,0,0.05), #111111 70%);
+      padding: 5rem 2rem;
       text-align: center;
       position: relative;
       animation: fadeInUp 1s ease-out;
     }
-    
     .player-section h2 {
       font-family: var(--q4g-font-heading);
       font-size: 2rem;
@@ -670,7 +528,6 @@
       display: inline-block;
       color: var(--q4g-orange);
     }
-    
     .player-section h2::after {
       content: '';
       width: 60px;
@@ -682,35 +539,42 @@
       transform: translateX(-50%);
       border-radius: 2px;
     }
-    
     .steps-container {
-      display: flex;
-      flex-direction: column;
+      display: flex; 
+      flex-wrap: wrap;
       gap: 2rem;
-      max-width: 800px;
+      max-width: 1200px;
       margin: 0 auto;
-      text-align: left;
       animation: fadeInUp 1s ease-out;
+      justify-content: center;
+      text-align: left;
     }
-    
     .step {
-      background: var(--q4g-gray);
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.05),
+        rgba(255,103,0,0.15)
+      );
+      border: 1px solid rgba(255,255,255,0.1);
+      width: 280px;
       padding: 1.5rem;
-      border-radius: 15px;
+      border-radius: 20px;
       transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-      position: relative;
       display: flex;
       align-items: flex-start;
-      gap: 1.5rem;
-      animation: fadeInUp 1s ease-out;
+      gap: 1rem;
+      position: relative;
       cursor: pointer;
+      animation: fadeInUp 1s ease-out;
     }
-    
-    /* Step Number */
+    .step:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(255,103,0,0.3);
+    }
     .step-number {
       background: var(--q4g-orange);
       color: var(--q4g-black);
-      width: 40px;
+      min-width: 40px;
       height: 40px;
       border-radius: 50%;
       display: flex;
@@ -722,55 +586,26 @@
       transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
       animation: pulseStepNumber 6s infinite;
     }
-    
-    /* Step Content */
     .step-content h4 {
       color: var(--q4g-orange);
       margin-bottom: 0.5rem;
       font-size: 1.2rem;
+      font-family: var(--q4g-font-heading);
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-family: var(--q4g-font-heading);
     }
-    
+    .step-content h4 i {
+      color: var(--q4g-orange);
+    }
     .step-content p {
       color: var(--q4g-light-gray);
       font-size: 1rem;
       line-height: 1.6;
     }
-    
-    /* Hover Effects for Steps */
-    .step:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(255, 103, 0, 0.3);
-    }
-    
-    .step:hover .step-number {
-      transform: scale(1.1);
-      box-shadow: 0 0 10px rgba(255, 103, 0, 0.7);
-    }
-    
-    /* Pulse Animation for Step Number */
-    @keyframes pulseStepNumber {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0.5);
-      }
-      70% {
-        transform: scale(1.2);
-        box-shadow: 0 0 0 10px rgba(255, 103, 0, 0);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0);
-      }
-    }
-    
-    /* Discord Button Enhancements */
     .discord-btn {
       margin-top: 2rem;
-      background: #7289DA; /* Discord Blue */
+      background: #7289DA;
       color: #fff;
       padding: 0.75rem 1.5rem;
       border-radius: 30px;
@@ -782,101 +617,22 @@
       transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
       text-decoration: none;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      /* Enhanced visuals */
       background: linear-gradient(45deg, #7289DA, #5b6eae);
       position: relative;
       overflow: hidden;
       animation: pulseDiscord 2s infinite;
     }
     
-    .discord-btn::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -50%;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      transform: skewX(-45deg);
-      transition: transform var(--transition-speed) ease;
-    }
-    
-    .discord-btn:hover::after {
-      transform: translateX(100%) skewX(-45deg);
-    }
-    
-    .discord-btn:hover {
-      background: linear-gradient(45deg, #5b6eae, #7289DA);
-      transform: translateY(-5px);
-      box-shadow: 0 6px 10px rgba(0,0,0,0.4);
-    }
-    
-    /* Pulse Animation for Discord Button */
-    @keyframes pulseDiscord {
-      0% {
-        box-shadow: 0 0 0 0 rgba(114, 137, 218, 0.7);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(114, 137, 218, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(114, 137, 218, 0);
-      }
-    }
-    
-    /* Register Now Button Styles */
-    .register-btn {
-      padding: 0.75rem 2rem;
-      color: var(--q4g-white);
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-      /* Enhanced visuals */
-      background: linear-gradient(45deg, var(--q4g-orange), #ff8f00);
-      position: relative;
-      overflow: hidden;
-      animation: pulse 2s infinite;
-    }
-    
-    .register-btn::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -50%;
-      width: 100%;
-      height: 100%;
-      background: var(--q4g-orange);
-      transition: all var(--transition-speed) ease;
-      transform: skewX(-45deg);
-    }
-    
-    .register-btn:hover::after {
-      transform: translateX(100%) skewX(-45deg);
-    }
-    
-    .register-btn:hover {
-      background: linear-gradient(45deg, #e65a00, #ff7f50);
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-    }
-    
-    /* Our Divisions Section */
+    /* ---------------------------------------------------------- */
+    /* OUR DIVISIONS SECTION (Refined) */
+    /* ---------------------------------------------------------- */
     .divisions-section {
-      background: var(--q4g-black);
+      background: #181818;
       padding: 4rem 2rem;
       text-align: center;
       position: relative;
       animation: fadeInUp 1s ease-out;
     }
-    
     .divisions-section h2 {
       font-family: var(--q4g-font-heading);
       font-size: 2rem;
@@ -885,7 +641,6 @@
       display: inline-block;
       color: var(--q4g-orange);
     }
-    
     .divisions-section h2::after {
       content: '';
       width: 60px;
@@ -897,78 +652,52 @@
       transform: translateX(-50%);
       border-radius: 2px;
     }
-    
     .divisions-container {
-      display: flex;
+      display: flex; 
       flex-wrap: wrap;
       gap: 2rem;
       max-width: 1200px;
       margin: 0 auto;
       justify-content: center;
     }
-    
     .division-card {
-      background: var(--q4g-gray);
-      width: 300px;
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.05),
+        rgba(255,103,0,0.1)
+      );
+      width: 280px;
+      padding: 2rem 1.5rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
       cursor: pointer;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background var(--transition-speed) ease;
       position: relative;
-      overflow: hidden;
       animation: fadeInUp 1s ease-out;
+      text-align: left;
     }
-    
-    .division-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: var(--q4g-orange);
-      opacity: 0;
-      transition: opacity var(--transition-speed) ease;
-      transform: rotate(45deg);
-    }
-    
-    .division-card:hover::before {
-      opacity: 0.1;
-    }
-    
     .division-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 20px rgba(255, 103, 0, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(255,103,0,0.3);
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.07),
+        rgba(255,103,0,0.15)
+      );
     }
-    
     .division-card h3 {
       color: var(--q4g-orange);
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       font-size: 1.5rem;
       font-family: var(--q4g-font-heading);
       position: relative;
     }
-    
-    .division-card h3::after {
-      content: '';
-      width: 30px;
-      height: 3px;
-      background: var(--q4g-orange);
-      position: absolute;
-      left: 50%;
-      bottom: -10px;
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
-    
     .division-card p {
-      color: var(--q4g-light-gray);
+      color: var(--q4g-light_gray);
       font-size: 1rem;
       line-height: 1.6;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
-    
     .apply-btn {
       padding: 0.5rem 1.5rem;
       background: var(--q4g-orange);
@@ -984,37 +713,66 @@
       gap: 0.3rem;
       text-decoration: none;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      /* Enhanced visuals */
       background: linear-gradient(45deg, var(--q4g-orange), #ff8f00);
       position: relative;
       overflow: hidden;
       animation: pulse 2s infinite;
     }
-    
-    .apply-btn::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--q4g-orange);
-      transition: all var(--transition-speed) ease;
-      transform: skewX(-45deg);
-    }
-    
-    .apply-btn:hover::after {
-      left: 0;
-    }
-    
     .apply-btn:hover {
       background: linear-gradient(45deg, #e65a00, #ff7f50);
-      color: var(--q4g-white);
       transform: translateY(-3px);
       box-shadow: 0 6px 10px rgba(0,0,0,0.4);
     }
     
-    /* Footer */
+    /* ---------------------------------------------------------- */
+    /* LIVE BYOT SECTION */
+    /* ---------------------------------------------------------- */
+    .live-byot-section {
+      background: #141414;
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+    }
+    .live-byot-section h2 {
+      font-family: var(--q4g-font-heading);
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+      color: var(--q4g-orange);
+    }
+    .live-byot-section h2::after {
+      content: '';
+      width: 60px;
+      height: 4px;
+      background: var(--q4g-orange);
+      position: absolute;
+      left: 50%;
+      bottom: -15px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .live-byot-content {
+      max-width: 800px;
+      margin: 0 auto;
+      animation: fadeInUp 1s ease-out;
+    }
+    .live-byot-content iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      transition: transform var(--transition-speed) ease;
+    }
+    .live-byot-content iframe:hover {
+      transform: scale(1.02);
+    }
+    
+    /* ---------------------------------------------------------- */
+    /* FOOTER */
+    /* ---------------------------------------------------------- */
     footer {
       background: var(--q4g-black);
       color: #ccc;
@@ -1022,14 +780,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
       animation: fadeInUp 1s ease-out;
       z-index: 100;
-      margin-top: auto; /* Push footer to the bottom */
-      border-top: 2px solid var(--q4g-gray); /* Added top border */
+      margin-top: auto;
+      border-top: 2px solid var(--q4g-gray);
     }
-    
-    .footer-nav, .social-links {
+    .footer-nav,
+    .social-links {
       list-style: none;
       display: flex;
       gap: 1.5rem;
@@ -1038,8 +795,8 @@
       justify-content: center;
       animation: fadeInUp 1s ease-out;
     }
-    
-    .footer-nav a, .social-links a {
+    .footer-nav a,
+    .social-links a {
       font-size: 0.9rem;
       font-weight: 500;
       color: #ccc;
@@ -1049,8 +806,8 @@
       transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
       position: relative;
     }
-    
-    .footer-nav a::after, .social-links a::after {
+    .footer-nav a::after,
+    .social-links a::after {
       content: '';
       width: 0%;
       height: 2px;
@@ -1060,16 +817,15 @@
       left: 0;
       transition: width var(--transition-speed) ease;
     }
-    
-    .footer-nav a:hover::after, .social-links a:hover::after {
+    .footer-nav a:hover::after,
+    .social-links a:hover::after {
       width: 100%;
     }
-    
-    .footer-nav a:hover, .social-links a:hover {
+    .footer-nav a:hover,
+    .social-links a:hover {
       color: var(--q4g-orange);
       transform: translateY(-3px);
     }
-    
     .rules-button {
       padding: 0.5rem 1rem;
       background: transparent;
@@ -1083,37 +839,32 @@
       align-items: center;
       gap: 0.3rem;
       animation: fadeInUp 1s ease-out;
-      position: relative; /* Needed for ::after */
+      position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
-    
     .rules-button::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
       background: var(--q4g-orange);
       transition: all var(--transition-speed) ease;
       transform: skewX(-45deg);
+      z-index: -1;
     }
-    
     .rules-button:hover::after {
       left: 0;
     }
-    
     .rules-button:hover {
       color: var(--q4g-white);
       transform: translateY(-3px);
     }
-    
     .footer-support {
       margin-bottom: 1.5rem;
       font-size: 0.95rem;
       animation: fadeInUp 1s ease-out;
     }
-    
     .footer-support a {
       color: #5865F2;
       text-decoration: underline;
@@ -1121,9 +872,8 @@
       align-items: center;
       gap: 0.3rem;
       transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
-      position: relative; /* Needed for ::after */
+      position: relative;
     }
-    
     .footer-support a::after {
       content: '';
       width: 0%;
@@ -1134,20 +884,16 @@
       left: 0;
       transition: width var(--transition-speed) ease;
     }
-    
     .footer-support a:hover::after {
       width: 100%;
     }
-    
     .footer-support a:hover {
       color: #4653c9;
       transform: translateY(-2px);
     }
-    
     .footer-support a:hover::after {
       background: #4653c9;
     }
-    
     .footer-copyright {
       font-size: 0.75rem;
       color: #999;
@@ -1155,7 +901,9 @@
       animation: fadeInUp 1s ease-out;
     }
     
-    /* Animations */
+    /* ---------------------------------------------------------- */
+    /* KEYFRAMES & MEDIA QUERIES */
+    /* ---------------------------------------------------------- */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -1166,7 +914,6 @@
         transform: translateY(0);
       }
     }
-    
     @keyframes slideInDown {
       from {
         opacity: 0;
@@ -1177,16 +924,10 @@
         transform: translateY(0);
       }
     }
-    
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
-    
     @keyframes fadeInDown {
       from {
         opacity: 0;
@@ -1197,7 +938,6 @@
         transform: translateY(0);
       }
     }
-    
     @keyframes slideInRight {
       from {
         right: -100%;
@@ -1206,8 +946,6 @@
         right: 0;
       }
     }
-    
-    /* Pulse Animation for Step Number */
     @keyframes pulseStepNumber {
       0% {
         transform: scale(1);
@@ -1223,7 +961,6 @@
       }
     }
     
-    /* Responsive */
     @media (max-width: 1024px) {
       .nav-links {
         display: none;
@@ -1231,7 +968,7 @@
       .hamburger {
         display: flex;
       }
-      .cards-container, .divisions-container {
+      .divisions-container {
         flex-direction: column;
         align-items: center;
       }
@@ -1242,7 +979,7 @@
     
     @media (max-width: 768px) {
       .hero {
-        margin-top: 60px; /* Adjusted for smaller screens */
+        margin-top: 60px;
         height: calc(100vh - 60px);
       }
       .hero-content h1 {
@@ -1258,42 +995,30 @@
       .partner-carousel img {
         height: 60px;
       }
-      .about-section h2, .player-section h2, .divisions-section h2 {
+      .player-section h2, 
+      .divisions-section h2, 
+      .live-byot-section h2 {
         font-size: 1.5rem;
       }
-      .qg-card, .division-card {
+      .division-card {
         width: 90%;
       }
       .steps-container {
+        flex-direction: column;
         gap: 1rem;
       }
-      .player-section h2 {
-        font-size: 1.5rem;
-      }
       .step {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        width: 100%;
+        flex-direction: row;
       }
       .step-number {
-        margin-bottom: 1rem;
+        margin-bottom: 0;
       }
       .step-content {
-        align-items: center;
-      }
-      .image-overlay {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        padding: 0.3rem 0.8rem;
-        font-size: 0.9rem;
-      }
-      .countdown-timer {
-        flex-direction: column;
-        gap: 0.3rem;
+        align-items: flex-start;
       }
       .user-info {
-        display: none; /* Hide user info on smaller screens if needed */
+        display: none;
       }
     }
   </style>
@@ -1318,9 +1043,14 @@
         <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
       </ul>
       <div class="auth-buttons">
-        <!-- Modified Sign In button to trigger Discord sign-in -->
-        <a href="/.netlify/functions/discord-signin" id="discordSignIn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
-        <a href="#signup"><i class="fas fa-user-plus"></i> Sign Up</a>
+        <!-- Login Button as a Link -->
+        <a 
+          href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fqg%2F&scope=identify%20email"
+          aria-label="Login with Discord"
+          class="login-btn"
+        >
+          <i class="fas fa-sign-in-alt"></i> Login
+        </a>
       </div>
       <div class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
         <div></div>
@@ -1331,15 +1061,13 @@
     
     <!-- User Info (hidden by default) -->
     <div class="user-info hidden" id="userInfo">
-      <!-- Profile Picture wrapped in a link -->
-      <a href="#" id="userProfileLink"><img src="" alt="User Profile Picture" id="userProfilePic"></a>
+      <a href="profile.html" id="userProfileLink"><img src="" alt="User Profile Picture" id="userProfilePic"></a>
       <span id="userName"></span>
-      <!-- Sign-Out Button -->
       <button id="signOutButton">Sign Out</button>
     </div>
     
     <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-menu hidden" id="mobile-menu">
       <ul>
         <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
         <li><a href="#"><i class="fas fa-trophy"></i> Competitions</a></li>
@@ -1348,9 +1076,14 @@
         <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
       </ul>
       <div class="auth-buttons">
-        <!-- Modified Mobile Sign In button to trigger Discord sign-in -->
-        <a href="/.netlify/functions/discord-signin" id="mobileDiscordSignIn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
-        <a href="#signup"><i class="fas fa-user-plus"></i> Sign Up</a>
+        <!-- Login Button as a Link -->
+        <a 
+          href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fqg%2F&scope=identify%20email"
+          aria-label="Login with Discord"
+          class="login-btn"
+        >
+          <i class="fas fa-sign-in-alt"></i> Login
+        </a>
       </div>
     </div>
   </header>
@@ -1359,7 +1092,6 @@
   <main>
     <!-- HERO SECTION -->
     <section class="hero" id="hero">
-      <!-- Swiper -->
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <!-- Slides -->
@@ -1368,18 +1100,12 @@
               <source src="clip1.mp4" type="video/mp4">
             </video>
           </div>
-          <div class="swiper-slide">
-            <video autoplay muted loop playsinline>
-              <source src="clip2.mp4" type="video/mp4">
-            </video>
+
           </div>
-          <!-- Add more slides as needed -->
         </div>
-        <!-- Pagination -->
         <div class="swiper-pagination"></div>
       </div>
       
-      <!-- Decorative SVG Shape -->
       <svg class="decorative-shape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="50" fill="#FF6700" opacity="0.3"/>
       </svg>
@@ -1396,38 +1122,16 @@
       <h2>Our Partners</h2>
       <div class="swiper-container partner-carousel">
         <div class="swiper-wrapper">
-          <!-- Partner Logos -->
-          <div class="swiper-slide"><img src="psv.png" alt="Partner 1"></div>
-          <div class="swiper-slide"><img src="psf.png" alt="Partner 2"></div>
-          <div class="swiper-slide"><img src="dortmund.png" alt="Partner 3"></div>
-          <div class="swiper-slide"><img src="intermiami.png" alt="Partner 4"></div>
-          <!-- Add more partners as needed -->
+          <div class="swiper-slide"><img src="psv.png" alt="PSV Partner"></div>
+          <div class="swiper-slide"><img src="psf.png" alt="PSF Partner"></div>
+          <div class="swiper-slide"><img src="dortmund.png" alt="Dortmund Partner"></div>
+          <div class="swiper-slide"><img src="intermiami.png" alt="Inter Miami Partner"></div>
         </div>
-        <!-- Optional Pagination -->
         <div class="swiper-pagination"></div>
       </div>
     </section>
     
-    <!-- ABOUT QUEST FOR GLORY -->
-    <section class="about-section" data-aos="fade-up">
-      <h2>Why Play with Us?</h2>
-      <div class="cards-container">
-        <div class="qg-card" data-aos="zoom-in" data-aos-delay="100">
-          <h3><i class="fas fa-dollar-sign"></i> Earn Huge Cash Prizes</h3>
-          <p>Compete in the top Pro Clubs tournaments with up to $2,000 in cash prizes.</p>
-        </div>
-        <div class="qg-card" data-aos="zoom-in" data-aos-delay="200">
-          <h3><i class="fas fa-handshake"></i> Be Good, Get Partnered</h3>
-          <p>Showcase your skills and become an official partner or sponsor-affiliated player.</p>
-        </div>
-        <div class="qg-card" data-aos="zoom-in" data-aos-delay="300">
-          <h3><i class="fas fa-globe"></i> Join the Biggest League</h3>
-          <p>Quest for Glory hosts an epic league featuring players from North America and beyond.</p>
-        </div>
-      </div>
-    </section>
-    
-    <!-- BECOME A PLAYER SECTION -->
+    <!-- BECOME A PLAYER SECTION (Improved) -->
     <section class="player-section" id="becomePlayer" data-aos="fade-up">
       <h2>Become a Player</h2>
       <div class="steps-container">
@@ -1465,38 +1169,48 @@
       </div>
     </section>
     
-    <!-- OUR DIVISIONS SECTION -->
+    <!-- OUR DIVISIONS SECTION (Refined) -->
     <section class="divisions-section" data-aos="fade-up">
       <h2>Our Divisions</h2>
       <div class="divisions-container">
-        <!-- Division 1 -->
         <div class="division-card" data-aos="zoom-in" data-aos-delay="100">
           <h3>Division 1</h3>
-          <p><strong>Price:</strong> $8.99</p>
+          <p><strong>Prize:</strong> $2000</p>
           <p>Compete at the highest level with the best players. Exclusive rewards and recognition await.</p>
           <a href="#applyDiv1" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
         </div>
-        <!-- Division 2 -->
+        
         <div class="division-card" data-aos="zoom-in" data-aos-delay="200">
           <h3>Division 2</h3>
-          <p><strong>Price:</strong> $6.99</p>
+          <p><strong>Prize:</strong> $1500</p>
           <p>Join a competitive yet accessible tier. Improve your skills and climb the ranks.</p>
           <a href="#applyDiv2" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
         </div>
-        <!-- Division 3 -->
+        
         <div class="division-card" data-aos="zoom-in" data-aos-delay="300">
           <h3>Division 3</h3>
-          <p><strong>Price:</strong> Free</p>
+          <p><strong>Prize:</strong> Discord Privileges</p>
           <p>Perfect for newcomers and casual players. Experience the thrill without any entry fee.</p>
           <a href="#applyDiv3" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
         </div>
+      </div>
+    </section>
+    
+    <!-- LIVE BYOT SECTION -->
+    <section class="live-byot-section" data-aos="fade-up">
+      <h2>Watch the Finals of the BYOT</h2>
+      <div class="live-byot-content">
+        <iframe src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID"
+                title="Live BYOT"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
       </div>
     </section>
   </main>
   
   <!-- FOOTER -->
   <footer>
-    <!-- Footer Navigation -->
     <ul class="footer-nav">
       <li><a href="#privacyPolicy"><i class="fas fa-shield-alt"></i> How We Protect Your Data</a></li>
       <li><a href="#cookiesPolicy"><i class="fas fa-cookie-bite"></i> Our Cookie Practices</a></li>
@@ -1504,7 +1218,6 @@
       <li><a href="#ourStory"><i class="fas fa-book-open"></i> Our Story</a></li>
     </ul>
     
-    <!-- Social Media Links -->
     <ul class="social-links">
       <li><a href="https://twitter.com/questforglory" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
       <li><a href="https://facebook.com/questforglory" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a></li>
@@ -1512,15 +1225,14 @@
       <li><a href="https://discord.gg/example" target="_blank"><i class="fab fa-discord"></i> Discord</a></li>
     </ul>
     
-    <!-- Rules and Guidelines -->
     <a href="#rulesGuidelines" class="rules-button"><i class="fas fa-book"></i> Rules and Guidelines</a>
     
-    <!-- Footer Support -->
     <div class="footer-support">
-      <p>Need help? <a href="https://discord.gg/example"><i class="fab fa-discord"></i> Join our Discord Help Desk</a></p>
+      <p>Need help?
+        <a href="https://discord.gg/example"><i class="fab fa-discord"></i> Join our Discord Help Desk</a>
+      </p>
     </div>
     
-    <!-- Copyright -->
     <div class="footer-copyright">
       © 2024 Quest for Glory. All Rights Reserved. Not affiliated with EA Sports or its licensors.
     </div>
@@ -1534,75 +1246,43 @@
   
   <!-- Main JS -->
   <script>
-    // Initialize Swiper for Hero Section
+    // Initialize Swiper for Hero
     var heroSwiper = new Swiper('.hero .swiper-container', {
       loop: true,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: '.hero .swiper-pagination',
-        clickable: true,
-      },
+      autoplay: { delay: 5000, disableOnInteraction: false },
+      pagination: { el: '.hero .swiper-pagination', clickable: true },
       effect: 'fade',
-      fadeEffect: {
-        crossFade: true
-      },
+      fadeEffect: { crossFade: true },
     });
     
     // Initialize Swiper for Partners Carousel
     var partnersSwiper = new Swiper('.partner-carousel', {
       loop: true,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
+      autoplay: { delay: 3000, disableOnInteraction: false },
       slidesPerView: 4,
       spaceBetween: 30,
       breakpoints: {
-        1024: {
-          slidesPerView: 4,
-          spaceBetween: 30,
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 20,
-        },
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 10,
-        },
-        480: {
-          slidesPerView: 1,
-          spaceBetween: 5,
-        },
+        1024: { slidesPerView: 4, spaceBetween: 30 },
+        768:  { slidesPerView: 3, spaceBetween: 20 },
+        640:  { slidesPerView: 2, spaceBetween: 10 },
+        480:  { slidesPerView: 1, spaceBetween: 5 },
       },
-      pagination: {
-        el: '.partner-carousel .swiper-pagination',
-        clickable: true,
-      },
+      pagination: { el: '.partner-carousel .swiper-pagination', clickable: true },
     });
     
     // Initialize AOS
-    AOS.init({
-      duration: 800, // Smoother animations
-      once: true,
-      easing: 'ease-in-out',
-    });
+    AOS.init({ duration: 800, once: true, easing: 'ease-in-out' });
     
     // Hamburger Menu Toggle
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
-    
     hamburger.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.toggle('open');
       hamburger.classList.toggle('active');
       hamburger.setAttribute('aria-expanded', isOpen);
     });
-    
-    // Close mobile menu when a link is clicked
-    const mobileLinks = mobileMenu.querySelectorAll('a');
+    // Close mobile menu on link click
+    const mobileLinks = mobileMenu.querySelectorAll('a, button');
     mobileLinks.forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('active');
@@ -1621,164 +1301,114 @@
       }
     });
     
-    // Smooth Scroll for Anchors
+    // Smooth Scroll for Internal Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
-        // If the link is for Discord or external, don't do smooth scroll
         const href = this.getAttribute('href');
         if (!href.startsWith('#')) return;
         
         e.preventDefault();
-        
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(href);
         if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth'
-          });
+          target.scrollIntoView({ behavior: 'smooth' });
         }
       });
     });
     
-    // Discord Sign-In Functionality
-    const discordSignInButtons = document.querySelectorAll('#discordSignIn, #mobileDiscordSignIn');
+    // -----------------------------
+    // OAuth2 & Session Handling
+    // -----------------------------
     const userInfo = document.getElementById('userInfo');
     const userNameSpan = document.getElementById('userName');
     const userProfilePic = document.getElementById('userProfilePic');
     const userProfileLink = document.getElementById('userProfileLink');
     const signOutButton = document.getElementById('signOutButton');
-    const authButtons = document.querySelectorAll('.auth-buttons'); // Select all auth-buttons (desktop and mobile)
+    const authButtons = document.querySelectorAll('.auth-buttons');
     
-    // Function to parse query parameters from URL
-    function getQueryParams() {
-      const params = {};
-      window.location.search.substring(1).split("&").forEach(pair => {
-        const [key, value] = pair.split("=");
-        if (key) params[decodeURIComponent(key)] = decodeURIComponent(value || '');
-      });
-      return params;
+    function setSession(data) {
+      sessionStorage.setItem('q4gUser', JSON.stringify(data));
     }
-    
-    // Function to fetch user data from backend
-    async function fetchUserData(userId) {
-      try {
-        const response = await fetch(`https://your-netlify-site.netlify.app/.netlify/functions/get-user?userId=${userId}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const user = await response.json();
-        return user;
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        return null;
-      }
+    function getSession() {
+      const user = sessionStorage.getItem('q4gUser');
+      return user ? JSON.parse(user) : null;
     }
-    
-    // Function to display user info
+    function clearSession() {
+      sessionStorage.removeItem('q4gUser');
+    }
+    async function fetchUserData() {
+      const user = getSession();
+      if (user) displayUserInfo(user);
+    }
     function displayUserInfo(user) {
       userNameSpan.textContent = `${user.username}#${user.discriminator}`;
-      userProfilePic.src = user.avatar;
-      userProfileLink.href = `https://discord.com/users/${user.id}`; // Redirect to Discord profile
+      userProfilePic.src = user.avatar
+        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+        : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator) % 5}.png`;
+      userProfileLink.href = `https://discord.com/users/${user.id}`;
       userInfo.classList.remove('hidden');
-      
-      // Hide all auth-buttons
-      authButtons.forEach(button => button.classList.add('hidden'));
+      authButtons.forEach(btn => btn.classList.add('hidden'));
     }
-    
-    // Function to hide user info
     function hideUserInfo() {
       userInfo.classList.add('hidden');
       userNameSpan.textContent = "";
       userProfilePic.src = "";
       userProfileLink.href = "#";
-      
-      // Show all auth-buttons
-      authButtons.forEach(button => button.classList.remove('hidden'));
-      
-      // Remove user data from localStorage
-      localStorage.removeItem('q4gUser');
+      authButtons.forEach(btn => btn.classList.remove('hidden'));
+      clearSession();
     }
-    
-    // Function to handle sign-in
-    async function handleSignIn(userId) {
-      const user = await fetchUserData(userId);
-      if (user) {
-        displayUserInfo(user);
-        // Store user data in localStorage to persist across sessions
-        localStorage.setItem('q4gUser', JSON.stringify(user));
-      } else {
-        console.error('Failed to retrieve user data.');
-      }
-    }
-    
-    // Function to handle sign-out
     function handleSignOut() {
       hideUserInfo();
-      // Optionally, you can also implement server-side sign-out if needed
+      alert('You have been signed out.');
     }
-    
-    // Attach event listeners to Discord Sign-In buttons
-    discordSignInButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        // Users are redirected to the Netlify Function which initiates OAuth2
-        // No need to prevent default behavior
-      });
-    });
-    
-    // Attach event listener to Sign-Out button
     if (signOutButton) {
       signOutButton.addEventListener('click', () => {
         handleSignOut();
       });
     }
-    
-    // On page load, check if there is a userId parameter or existing user data
-    window.addEventListener('DOMContentLoaded', async () => {
-      const params = getQueryParams();
-      
-      if (params.userId) {
-        // If there's a userId parameter, attempt to sign in
-        await handleSignIn(params.userId);
-        
-        // Clean up URL by removing the userId parameter
-        const url = new URL(window.location);
-        url.searchParams.delete('userId');
-        window.history.replaceState({}, document.title, url.toString());
-      } else {
-        // Otherwise, check if user data exists in localStorage
-        const storedUser = localStorage.getItem('q4gUser');
-        if (storedUser) {
-          const user = JSON.parse(storedUser);
-          displayUserInfo(user);
+    async function handleOAuth2Callback() {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      if (code) {
+        try {
+          const response = await fetch('/.netlify/functions/discord-callback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code, redirect_uri: 'https://alexg0dev.github.io/qg/' })
+          });
+          if (!response.ok) throw new Error('Token exchange failed.');
+          const data = await response.json();
+          setSession(data.user);
+          displayUserInfo(data.user);
+          window.history.replaceState({}, document.title, 'https://alexg0dev.github.io/qg/');
+        } catch (error) {
+          console.error('Error during OAuth2 callback:', error);
+          alert('Authentication failed. Please try again.');
         }
       }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      handleOAuth2Callback();
+      fetchUserData();
     });
     
     // Countdown Timer Script
-    // Ensure that countdown elements exist before trying to manipulate them
     document.addEventListener('DOMContentLoaded', () => {
       const countdownElement = document.getElementById("countdown");
       if (countdownElement) {
         const tournamentDate = new Date("Dec 31, 2024 23:59:59").getTime();
-    
-        // Update the countdown every second
         const countdownFunction = setInterval(function() {
-          
           const now = new Date().getTime();
           const distance = tournamentDate - now;
-          
-          // Time calculations for days, hours, minutes, and seconds
           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
           
-          // Display the result in the corresponding elements
           document.getElementById("days").innerText = days < 10 ? "0" + days : days;
           document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
           document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
           document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
           
-          // If the countdown is finished, display a message
           if (distance < 0) {
             clearInterval(countdownFunction);
             countdownElement.innerHTML = "Tournament Started!";
@@ -1787,6 +1417,5 @@
       }
     });
   </script>
-  
 </body>
 </html>
