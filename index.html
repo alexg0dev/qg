@@ -332,6 +332,24 @@
       display: none;
     }
     
+    /* Sign-Out Button Styles (Provided by User) */
+    #signOutButton {
+      margin-left: 1rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 25px;
+      background: var(--q4g-red);
+      color: var(--q4g-white);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition-speed) ease, transform var(--transition-speed) ease;
+    }
+    
+    #signOutButton:hover {
+      background: #cc0000;
+      transform: translateY(-3px);
+    }
+
     /* Hero Section */
     .hero {
       position: relative;
@@ -364,6 +382,7 @@
       box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
       transition: transform var(--transition-speed) ease;
       z-index: -1; /* Ensure video is behind other elements */
+      pointer-events: none; /* Prevent video from capturing hover events */
     }
     
     .hero .swiper-slide video:hover {
@@ -380,6 +399,7 @@
       height: 100%;
       background: rgba(0, 0, 0, 0.4); /* Reduced opacity for better visibility */
       z-index: 0; /* Positioned below hero-content */
+      pointer-events: none; /* Allow clicks to pass through */
     }
     
     .hero-content {
@@ -1006,6 +1026,7 @@
       animation: fadeInUp 1s ease-out;
       z-index: 100;
       margin-top: auto; /* Push footer to the bottom */
+      border-top: 2px solid var(--q4g-gray); /* Added top border */
     }
     
     .footer-nav, .social-links {
@@ -1186,6 +1207,22 @@
       }
     }
     
+    /* Pulse Animation for Step Number */
+    @keyframes pulseStepNumber {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0.5);
+      }
+      70% {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 10px rgba(255, 103, 0, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0);
+      }
+    }
+    
     /* Responsive */
     @media (max-width: 1024px) {
       .nav-links {
@@ -1282,7 +1319,7 @@
       </ul>
       <div class="auth-buttons">
         <!-- Modified Sign In button to trigger Discord sign-in -->
-        <a href="#" id="discordSignIn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fqg%2F&scope=identify%20email" id="discordSignIn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
         <a href="#signup"><i class="fas fa-user-plus"></i> Sign Up</a>
       </div>
       <div class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -1297,6 +1334,8 @@
       <!-- Profile Picture wrapped in a link -->
       <a href="#" id="userProfileLink"><img src="" alt="User Profile Picture" id="userProfilePic"></a>
       <span id="userName"></span>
+      <!-- Sign-Out Button -->
+      <button id="signOutButton">Sign Out</button>
     </div>
     
     <!-- Mobile Menu -->
@@ -1310,7 +1349,7 @@
       </ul>
       <div class="auth-buttons">
         <!-- Modified Mobile Sign In button to trigger Discord sign-in -->
-        <a href="#" id="mobileDiscordSignIn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fqg%2F&scope=identify%20email" id="mobileDiscordSignIn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
         <a href="#signup"><i class="fas fa-user-plus"></i> Sign Up</a>
       </div>
     </div>
@@ -1600,19 +1639,41 @@
       });
     });
     
-    // Discord Sign-In Mock Functionality
+    // Discord Sign-In Functionality
     const discordSignInButtons = document.querySelectorAll('#discordSignIn, #mobileDiscordSignIn');
     const userInfo = document.getElementById('userInfo');
     const userNameSpan = document.getElementById('userName');
     const userProfilePic = document.getElementById('userProfilePic');
     const userProfileLink = document.getElementById('userProfileLink');
+    const signOutButton = document.getElementById('signOutButton');
     const authButtons = document.querySelectorAll('.auth-buttons'); // Select all auth-buttons (desktop and mobile)
     
-    // Mock user data (replace with actual data from Discord API when backend is ready)
-    const mockUser = {
-      username: "Gamer123",
-      avatarURL: "https://cdn.discordapp.com/embed/avatars/0.png" // Placeholder image
-    };
+    // Function to parse query parameters from URL
+    function getQueryParams() {
+      const params = {};
+      window.location.search.substring(1).split("&").forEach(pair => {
+        const [key, value] = pair.split("=");
+        if (key) params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+      });
+      return params;
+    }
+    
+    // Function to exchange code for user data (Requires server-side handling)
+    // For demonstration, we'll mock this process
+    function exchangeCodeForUserData(code) {
+      // In a real implementation, send the code to your server to exchange for tokens
+      // Then, use the tokens to fetch user data from Discord API
+      // Here, we'll simulate with mock data
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const mockUser = {
+            username: "Gamer123",
+            avatarURL: "https://cdn.discordapp.com/embed/avatars/0.png" // Placeholder image
+          };
+          resolve(mockUser);
+        }, 1000); // Simulate network delay
+      });
+    }
     
     // Function to display user info
     function displayUserInfo(user) {
@@ -1634,37 +1695,62 @@
       
       // Show all auth-buttons
       authButtons.forEach(button => button.classList.remove('hidden'));
+      
+      // Remove user data from localStorage
+      localStorage.removeItem('q4gUser');
     }
     
     // Function to handle sign-in
-    function handleSignIn() {
-      // In a real scenario, initiate Discord OAuth flow here
-      // For mock, we'll use predefined user data
-      displayUserInfo(mockUser);
+    async function handleSignIn(code) {
+      // Exchange the code for user data
+      const user = await exchangeCodeForUserData(code);
+      
+      // Display user info
+      displayUserInfo(user);
+      
       // Store user data in localStorage to persist across sessions
-      localStorage.setItem('q4gUser', JSON.stringify(mockUser));
+      localStorage.setItem('q4gUser', JSON.stringify(user));
+      
+      // Clean up URL by removing the code parameter
+      const url = new URL(window.location);
+      url.searchParams.delete('code');
+      window.history.replaceState({}, document.title, url.toString());
     }
     
-    // Function to handle sign-out (optional, for testing)
+    // Function to handle sign-out
     function handleSignOut() {
       hideUserInfo();
-      localStorage.removeItem('q4gUser');
     }
     
     // Attach event listeners to Discord Sign-In buttons
     discordSignInButtons.forEach(button => {
       button.addEventListener('click', (e) => {
-        e.preventDefault();
-        handleSignIn();
+        // No need to prevent default as we want to navigate to the OAuth URL
+        // Users will be redirected to Discord's authorization page
       });
     });
     
-    // On page load, check if user is already signed in
-    window.addEventListener('DOMContentLoaded', () => {
-      const storedUser = localStorage.getItem('q4gUser');
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        displayUserInfo(user);
+    // Attach event listener to Sign-Out button
+    if (signOutButton) {
+      signOutButton.addEventListener('click', () => {
+        handleSignOut();
+      });
+    }
+    
+    // On page load, check if there is a code parameter or existing user data
+    window.addEventListener('DOMContentLoaded', async () => {
+      const params = getQueryParams();
+      
+      if (params.code) {
+        // If there's a code parameter, attempt to sign in
+        await handleSignIn(params.code);
+      } else {
+        // Otherwise, check if user data exists in localStorage
+        const storedUser = localStorage.getItem('q4gUser');
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          displayUserInfo(user);
+        }
       }
     });
     
