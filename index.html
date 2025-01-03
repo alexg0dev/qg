@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quest for Glory - Homepage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-dXjIhkB3gjhGk2efUxBkxVbXT1hGpxcZc9JbHuEwB0RWp5DqE3qPbs/XE5oZYIu2mkQhFqqAmkMaZ0kz2Zb3uQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Swiper.js CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  
+  <!-- Main Styles -->
+  <style>
+    :root {
+      --q4g-orange: #FF6700;
+      --q4g-red: #FF0000;
+      --q4g-black: #1A1A1A;
+      --q4g-white: #FFFFFF;
+      --q4g-gray: #2B2B2B;
+      --q4g-light-gray: #D4D4D4;
+      --q4g-font-heading: 'Montserrat', sans-serif;
+      --q4g-font-body: 'Poppins', sans-serif;
+      --transition-speed: 0.3s;
+      --button-height: 50px;
+    }
+    
+    /* CSS Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: var(--q4g-font-body);
+      background: var(--q4g-black);
+      color: var(--q4g-white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color var(--transition-speed) ease;
+    }
+    
+    a:hover {
+      color: var(--q4g-orange);
+    }
+    
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(26, 26, 26, 0.95);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      transition: background var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    header.scrolled {
+      background: var(--q4g-black);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      animation: fadeInDown 1s ease-out;
+    }
+    
+    .brand-logo img {
+      width: 60px;
+      height: auto;
+      margin-right: 0.5rem;
+      border-radius: 8px;
+      transition: transform var(--transition-speed) ease;
+    }
+    
+    .brand-logo img:hover {
+      transform: scale(1.05);
+    }
+    
+    .brand-text {
+      color: var(--q4g-orange);
+      font-size: 1.8rem;
+      font-family: var(--q4g-font-heading);
+      font-weight: 700;
+      letter-spacing: 1px;
+      /* Removed hover underline */
+      animation: fadeInUp 1s ease-out;
+      /* Make it non-interactive */
+      pointer-events: none;
+    }
+    
+    nav {
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin-right: 2rem;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .nav-links li a {
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      position: relative;
+      padding: 0.5rem;
+    }
+    
+    .nav-links li a::after {
+      content: '';
+      width: 0%;
+      height: 2px;
+      background: var(--q4g-orange);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transition: width var(--transition-speed) ease;
+    }
+    
+    .nav-links li a:hover::after {
+      width: 100%;
+    }
+    
+    .nav-links li a:hover {
+      color: var(--q4g-orange);
+      transform: translateY(-3px);
+    }
+    
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      z-index: 1100;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: var(--q4g-white);
+      transition: all var(--transition-speed) ease;
+    }
+    
+    /* Hamburger Animation */
+    .hamburger.active div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.active div:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      height: 100vh;
+      background: var(--q4g-black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: right var(--transition-speed) ease;
+      gap: 2rem;
+      z-index: 999;
+    }
+    
+    /* Apply animation only when open */
+    .mobile-menu.open {
+      right: 0;
+      animation: slideInRight 0.5s forwards;
+    }
+    
+    /* Define the slideInRight animation */
+    @keyframes slideInRight {
+      from {
+        right: -100%;
+      }
+      to {
+        right: 0;
+      }
+    }
+    
+    .mobile-menu ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      text-align: center;
+    }
+    
+    .mobile-menu a {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--q4g-white);
+      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      position: relative;
+    }
+    
+    .mobile-menu a::after {
+      content: '';
+      width: 0%;
+      height: 2px;
+      background: var(--q4g-orange);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transition: width var(--transition-speed) ease;
+    }
+    
+    .mobile-menu a:hover::after {
+      width: 100%;
+    }
+    
+    .mobile-menu a:hover {
+      color: var(--q4g-orange);
+      transform: translateX(10px);
+    }
+    
+    /* Sign In & Sign Up Buttons */
+    .auth-buttons a {
+      margin-left: 1rem;
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--q4g-orange);
+      border-radius: 25px;
+      color: var(--q4g-orange);
+      font-weight: 600;
+      transition: background var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      height: var(--button-height);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .auth-buttons a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--q4g-orange);
+      transition: all var(--transition-speed) ease;
+      transform: skewX(-45deg);
+    }
+    
+    .auth-buttons a:hover::before {
+      left: 0;
+    }
+    
+    .auth-buttons a:hover {
+      color: var(--q4g-white);
+      transform: translateY(-3px);
+    }
+    
+    /* Hero Section */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 80px); /* Adjusted for header height */
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--q4g-white);
+      text-align: center;
+      margin-top: 80px; /* Space for header */
+      background: #000; /* Fallback background */
+      animation: fadeIn 1.5s ease-out;
+    }
+    
+    .hero .swiper-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .hero .swiper-slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Add shadow effect to video */
+      box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
+      transition: transform var(--transition-speed) ease;
+    }
+    
+    .hero .swiper-slide video:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Video Overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4); /* Reduced opacity for better visibility */
+      z-index: 1;
+    }
+    
+    .hero-content {
+      z-index: 2; /* Ensure content is above the overlay */
+      max-width: 800px;
+      padding: 0 1rem;
+      animation: fadeInUp 1s ease-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center the content */
+      transition: transform var(--transition-speed) ease;
+    }
+    
+    .hero-content:hover {
+      transform: scale(1.02);
+    }
+    
+    .hero-content h1 {
+      font-family: var(--q4g-font-heading);
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: slideInDown 1s ease-out;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    }
+    
+    .hero-content p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      animation: fadeIn 1.5s ease-out;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    }
+    
+    .cta-btn {
+      padding: 0.75rem 2rem;
+      color: var(--q4g-white);
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 30px; /* Increased border-radius for modern look */
+      cursor: pointer;
+      transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      /* Enhanced visuals */
+      background: linear-gradient(45deg, var(--q4g-orange), #ff8f00);
+      position: relative;
+      overflow: hidden;
+      animation: pulse 2s infinite;
+    }
+    
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: skewX(-45deg);
+      transition: transform var(--transition-speed) ease;
+    }
+    
+    .cta-btn:hover::after {
+      transform: translateX(100%) skewX(-45deg);
+    }
+    
+    .cta-btn:hover {
+      background: linear-gradient(45deg, #e65a00, #ff7f50);
+      transform: translateY(-5px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+    }
+    
+    /* Pulse Animation for CTA Button */
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(255, 103, 0, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0);
+      }
+    }
+    
+    /* Decorative SVG Shape */
+    .hero .decorative-shape {
+      position: absolute;
+      bottom: 10%;
+      right: 5%;
+      width: 150px;
+      opacity: 0.3;
+      z-index: 1;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    /* Float Animation for Decorative Shape */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+    
+    /* Partners Slideshow */
+    .partners-section {
+      background: #141414;
+      padding: 4rem 2rem;
+      text-align: center;
+      animation: fadeInUp 1s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .partners-section h2 {
+      font-family: var(--q4g-font-heading);
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+      color: var(--q4g-orange);
+    }
+    
+    .partners-section h2::after {
+      content: '';
+      width: 60px;
+      height: 4px;
+      background: var(--q4g-orange);
+      position: absolute;
+      left: 50%;
+      bottom: -15px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    
+    .partner-carousel .swiper-slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .partner-carousel img {
+      height: 80px;
+      width: auto;
+      filter: grayscale(70%);
+      transition: filter var(--transition-speed) ease, transform var(--transition-speed) ease;
+      border-radius: 8px;
+    }
+    
+    .partner-carousel img:hover {
+      filter: grayscale(0%);
+      transform: scale(1.1);
+    }
+    
+    /* About Section */
+    .about-section {
+      background: var(--q4g-black);
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .about-section h2 {
+      font-family: var(--q4g-font-heading);
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+      color: var(--q4g-orange);
+    }
+    
+    .about-section h2::after {
+      content: '';
+      width: 60px;
+      height: 4px;
+      background: var(--q4g-orange);
+      position: absolute;
+      left: 50%;
+      bottom: -15px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      max-width: 1200px;
+      justify-content: center;
+    }
+    
+    .qg-card {
+      background: var(--q4g-gray);
+      width: 300px;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      /* Added transform origin for better hover effect */
+      transform-origin: top;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .qg-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: var(--q4g-orange);
+      opacity: 0;
+      transition: opacity var(--transition-speed) ease;
+      transform: rotate(45deg);
+    }
+    
+    .qg-card:hover::before {
+      opacity: 0.1;
+    }
+    
+    .qg-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(255, 103, 0, 0.3);
+    }
+    
+    .qg-card h3 {
+      color: var(--q4g-orange);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: var(--q4g-font-heading);
+    }
+    
+    .qg-card p {
+      color: var(--q4g-light-gray);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    /* Become a Player Section */
+    .player-section {
+      background: #111111;
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .player-section h2 {
+      font-family: var(--q4g-font-heading);
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      position: relative;
+      display: inline-block;
+      color: var(--q4g-orange);
+    }
+    
+    .player-section h2::after {
+      content: '';
+      width: 60px;
+      height: 4px;
+      background: var(--q4g-orange);
+      position: absolute;
+      left: 50%;
+      bottom: -15px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .step {
+      background: var(--q4g-gray);
+      padding: 1.5rem;
+      border-radius: 15px;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      animation: fadeInUp 1s ease-out;
+      cursor: pointer;
+    }
+    
+    /* Step Number */
+    .step-number {
+      background: var(--q4g-orange);
+      color: var(--q4g-black);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      animation: pulseStepNumber 6s infinite;
+    }
+    
+    /* Step Content */
+    .step-content h4 {
+      color: var(--q4g-orange);
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--q4g-font-heading);
+    }
+    
+    .step-content p {
+      color: var(--q4g-light-gray);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    /* Hover Effects for Steps */
+    .step:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(255, 103, 0, 0.3);
+    }
+    
+    .step:hover .step-number {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(255, 103, 0, 0.7);
+    }
+    
+    /* Pulse Animation for Step Number */
+    @keyframes pulseStepNumber {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0.5);
+      }
+      70% {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 10px rgba(255, 103, 0, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0);
+      }
+    }
+    
+    /* Discord Button Enhancements */
+    .discord-btn {
+      margin-top: 2rem;
+      background: #7289DA; /* Discord Blue */
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      /* Enhanced visuals */
+      background: linear-gradient(45deg, #7289DA, #5b6eae);
+      position: relative;
+      overflow: hidden;
+      animation: pulseDiscord 2s infinite;
+    }
+    
+    .discord-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: skewX(-45deg);
+      transition: transform var(--transition-speed) ease;
+    }
+    
+    .discord-btn:hover::after {
+      transform: translateX(100%) skewX(-45deg);
+    }
+    
+    .discord-btn:hover {
+      background: linear-gradient(45deg, #5b6eae, #7289DA);
+      transform: translateY(-5px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+    }
+    
+    /* Pulse Animation for Discord Button */
+    @keyframes pulseDiscord {
+      0% {
+        box-shadow: 0 0 0 0 rgba(114, 137, 218, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(114, 137, 218, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(114, 137, 218, 0);
+      }
+    }
+    
+    /* Register Now Button Styles */
+    .register-btn {
+      padding: 0.75rem 2rem;
+      color: var(--q4g-white);
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+      /* Enhanced visuals */
+      background: linear-gradient(45deg, var(--q4g-orange), #ff8f00);
+      position: relative;
+      overflow: hidden;
+      animation: pulse 2s infinite;
+    }
+    
+    .register-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: skewX(-45deg);
+      transition: transform var(--transition-speed) ease;
+    }
+    
+    .register-btn:hover::after {
+      transform: translateX(100%) skewX(-45deg);
+    }
+    
+    .register-btn:hover {
+      background: linear-gradient(45deg, #e65a00, #ff7f50);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    }
+    
+    /* Pulse Animation for Register Button */
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(255, 103, 0, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0);
+      }
+    }
+    
+    /* Our Divisions Section */
+    .divisions-section {
+      background: var(--q4g-black);
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .divisions-section h2 {
+      font-family: var(--q4g-font-heading);
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      position: relative;
+      display: inline-block;
+      color: var(--q4g-orange);
+    }
+    
+    .divisions-section h2::after {
+      content: '';
+      width: 60px;
+      height: 4px;
+      background: var(--q4g-orange);
+      position: absolute;
+      left: 50%;
+      bottom: -15px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    
+    .divisions-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      justify-content: center;
+    }
+    
+    .division-card {
+      background: var(--q4g-gray);
+      width: 300px;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .division-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: var(--q4g-orange);
+      opacity: 0;
+      transition: opacity var(--transition-speed) ease;
+      transform: rotate(45deg);
+    }
+    
+    .division-card:hover::before {
+      opacity: 0.1;
+    }
+    
+    .division-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(255, 103, 0, 0.3);
+    }
+    
+    .division-card h3 {
+      color: var(--q4g-orange);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      font-family: var(--q4g-font-heading);
+      position: relative;
+    }
+    
+    .division-card h3::after {
+      content: '';
+      width: 30px;
+      height: 3px;
+      background: var(--q4g-orange);
+      position: absolute;
+      left: 50%;
+      bottom: -10px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    
+    .division-card p {
+      color: var(--q4g-light-gray);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    
+    .apply-btn {
+      padding: 0.5rem 1.5rem;
+      background: var(--q4g-orange);
+      color: var(--q4g-white);
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      /* Enhanced visuals */
+      background: linear-gradient(45deg, var(--q4g-orange), #ff8f00);
+      position: relative;
+      overflow: hidden;
+      animation: pulse 2s infinite;
+    }
+    
+    .apply-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--q4g-orange);
+      transition: all var(--transition-speed) ease;
+      transform: skewX(-45deg);
+    }
+    
+    .apply-btn:hover::after {
+      left: 0;
+    }
+    
+    .apply-btn:hover {
+      background: linear-gradient(45deg, #e65a00, #ff7f50);
+      color: var(--q4g-white);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--q4g-black);
+      color: #ccc;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+      z-index: 100;
+    }
+    
+    .footer-nav, .social-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .footer-nav a, .social-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      position: relative;
+    }
+    
+    .footer-nav a::after, .social-links a::after {
+      content: '';
+      width: 0%;
+      height: 2px;
+      background: var(--q4g-orange);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transition: width var(--transition-speed) ease;
+    }
+    
+    .footer-nav a:hover::after, .social-links a:hover::after {
+      width: 100%;
+    }
+    
+    .footer-nav a:hover, .social-links a:hover {
+      color: var(--q4g-orange);
+      transform: translateY(-3px);
+    }
+    
+    .rules-button {
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 2px solid var(--q4g-orange);
+      border-radius: 25px;
+      color: var(--q4g-orange);
+      font-weight: 600;
+      transition: background var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      margin-bottom: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      animation: fadeInUp 1s ease-out;
+      position: relative; /* Needed for ::after */
+      overflow: hidden;
+    }
+    
+    .rules-button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--q4g-orange);
+      transition: all var(--transition-speed) ease;
+      transform: skewX(-45deg);
+    }
+    
+    .rules-button:hover::after {
+      left: 0;
+    }
+    
+    .rules-button:hover {
+      color: var(--q4g-white);
+      transform: translateY(-3px);
+    }
+    
+    .footer-support {
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .footer-support a {
+      color: #5865F2;
+      text-decoration: underline;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      position: relative; /* Needed for ::after */
+    }
+    
+    .footer-support a::after {
+      content: '';
+      width: 0%;
+      height: 2px;
+      background: #5865F2;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transition: width var(--transition-speed) ease;
+    }
+    
+    .footer-support a:hover::after {
+      width: 100%;
+    }
+    
+    .footer-support a:hover {
+      color: #4653c9;
+      transform: translateY(-2px);
+    }
+    
+    .footer-support a:hover::after {
+      background: #4653c9;
+    }
+    
+    .footer-copyright {
+      font-size: 0.75rem;
+      color: #999;
+      text-align: center;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideInRight {
+      from {
+        right: -100%;
+      }
+      to {
+        right: 0;
+      }
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .nav-links {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .cards-container, .divisions-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .partner-carousel {
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero {
+        margin-top: 60px; /* Adjusted for smaller screens */
+        height: calc(100vh - 60px);
+      }
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      .hero-content p {
+        font-size: 1rem;
+      }
+      .cta-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      .partner-carousel img {
+        height: 60px;
+      }
+      .about-section h2, .player-section h2, .divisions-section h2 {
+        font-size: 1.5rem;
+      }
+      .qg-card, .division-card {
+        width: 90%;
+      }
+      .steps-container {
+        gap: 1rem;
+      }
+      .player-section h2 {
+        font-size: 1.5rem;
+      }
+      .step {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .step-number {
+        margin-bottom: 1rem;
+      }
+      .step-content {
+        align-items: center;
+      }
+      .image-overlay {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      .countdown-timer {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- HEADER -->
+  <header id="header">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="q4g.jpg" alt="Quest for Glory Logo">
+      </div>
+      <div class="brand-text">Quest for Glory</div>
+    </div>
+    
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
+        <li><a href="#"><i class="fas fa-trophy"></i> Competitions</a></li>
+        <li><a href="#"><i class="fas fa-lightbulb"></i> Vision</a></li>
+        <li><a href="#"><i class="fas fa-comments"></i> Contact & Support</a></li>
+        <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <a href="#signin"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="#signup"><i class="fas fa-user-plus"></i> Sign Up</a>
+      </div>
+      <div class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+      <ul>
+        <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
+        <li><a href="#"><i class="fas fa-trophy"></i> Competitions</a></li>
+        <li><a href="#"><i class="fas fa-lightbulb"></i> Vision</a></li>
+        <li><a href="#"><i class="fas fa-comments"></i> Contact & Support</a></li>
+        <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <a href="#signin"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="#signup"><i class="fas fa-user-plus"></i> Sign Up</a>
+      </div>
+    </div>
+  </header>
+  
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <!-- Swiper -->
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide">
+          <video autoplay muted loop playsinline>
+            <source src="clip1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="swiper-slide">
+          <video autoplay muted loop playsinline>
+            <source src="clip2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <!-- Add more slides as needed -->
+      </div>
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
+    </div>
+    
+    <!-- Decorative SVG Shape -->
+    <svg class="decorative-shape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="50" fill="#FF6700" opacity="0.3"/>
+    </svg>
+    
+    <div class="hero-content" data-aos="fade-up">
+      <h1>Welcome to Quest for Glory</h1>
+      <p>Revolutionizing Pro Clubs to Make It the Best in North America.</p>
+      <a class="cta-btn" href="#becomePlayer"><i class="fas fa-play"></i> Get to Playing</a>
+    </div>
+  </section>
+  
+  <!-- PARTNERS SLIDESHOW -->
+  <section class="partners-section" data-aos="fade-up">
+    <h2>Our Partners</h2>
+    <div class="swiper-container partner-carousel">
+      <div class="swiper-wrapper">
+        <!-- Partner Logos -->
+        <div class="swiper-slide"><img src="psv.png" alt="Partner 1"></div>
+        <div class="swiper-slide"><img src="psf.png" alt="Partner 2"></div>
+        <div class="swiper-slide"><img src="dortmund.png" alt="Partner 3"></div>
+        <div class="swiper-slide"><img src="intermiami.png" alt="Partner 4"></div>
+        <!-- Add more partners as needed -->
+      </div>
+      <!-- Optional Pagination -->
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+  
+  <!-- ABOUT QUEST FOR GLORY -->
+  <section class="about-section" data-aos="fade-up">
+    <h2>Why Play with Us?</h2>
+    <div class="cards-container">
+      <div class="qg-card" data-aos="zoom-in" data-aos-delay="100">
+        <h3><i class="fas fa-dollar-sign"></i> Earn Huge Cash Prizes</h3>
+        <p>Compete in the top Pro Clubs tournaments with up to $2,000 in cash prizes.</p>
+      </div>
+      <div class="qg-card" data-aos="zoom-in" data-aos-delay="200">
+        <h3><i class="fas fa-handshake"></i> Be Good, Get Partnered</h3>
+        <p>Showcase your skills and become an official partner or sponsor-affiliated player.</p>
+      </div>
+      <div class="qg-card" data-aos="zoom-in" data-aos-delay="300">
+        <h3><i class="fas fa-globe"></i> Join the Biggest League</h3>
+        <p>Quest for Glory hosts an epic league featuring players from North America and beyond.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- BECOME A PLAYER SECTION -->
+  <section class="player-section" id="becomePlayer" data-aos="fade-up">
+    <h2>Become a Player</h2>
+    <div class="steps-container">
+      <div class="step" data-aos="fade-right" data-aos-delay="100">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4><i class="fas fa-users"></i> Join Our Discord Server</h4>
+          <p>Connect with players and teams, and get official updates.</p>
+        </div>
+      </div>
+      <div class="step" data-aos="fade-left" data-aos-delay="200">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4><i class="fas fa-gamepad"></i> Pick Your Console</h4>
+          <p>Available for both PlayStation and Xbox. More platforms coming soon!</p>
+        </div>
+      </div>
+      <div class="step" data-aos="fade-right" data-aos-delay="300">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4><i class="fas fa-user-tag"></i> Choose Your Role</h4>
+          <p>Whether you’re a free agent or a returning champion, we’ve got a place for you.</p>
+        </div>
+      </div>
+      <div class="step" data-aos="fade-left" data-aos-delay="400">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h4><i class="fas fa-clipboard-check"></i> Announce Your Skills</h4>
+          <p>Post in the Free Agent chat with your experience, gamertag, and position. Get scouted!</p>
+        </div>
+      </div>
+      <a class="discord-btn" href="https://discord.gg/example" target="_blank" aria-label="Join Quest for Glory Discord Server">
+        <i class="fab fa-discord"></i> Join Discord
+      </a>
+    </div>
+  </section>
+  
+  <!-- OUR DIVISIONS SECTION -->
+  <section class="divisions-section" data-aos="fade-up">
+    <h2>Our Divisions</h2>
+    <div class="divisions-container">
+      <!-- Division 1 -->
+      <div class="division-card" data-aos="zoom-in" data-aos-delay="100">
+        <h3>Division 1</h3>
+        <p><strong>Price:</strong> $8.99</p>
+        <p>Compete at the highest level with the best players. Exclusive rewards and recognition await.</p>
+        <a href="#applyDiv1" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
+      </div>
+      <!-- Division 2 -->
+      <div class="division-card" data-aos="zoom-in" data-aos-delay="200">
+        <h3>Division 2</h3>
+        <p><strong>Price:</strong> $6.99</p>
+        <p>Join a competitive yet accessible tier. Improve your skills and climb the ranks.</p>
+        <a href="#applyDiv2" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
+      </div>
+      <!-- Division 3 -->
+      <div class="division-card" data-aos="zoom-in" data-aos-delay="300">
+        <h3>Division 3</h3>
+        <p><strong>Price:</strong> Free</p>
+        <p>Perfect for newcomers and casual players. Experience the thrill without any entry fee.</p>
+        <a href="#applyDiv3" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- FOOTER -->
+  <footer>
+    <!-- Footer Navigation -->
+    <ul class="footer-nav">
+      <li><a href="#privacyPolicy"><i class="fas fa-shield-alt"></i> How We Protect Your Data</a></li>
+      <li><a href="#cookiesPolicy"><i class="fas fa-cookie-bite"></i> Our Cookie Practices</a></li>
+      <li><a href="#termsService"><i class="fas fa-file-contract"></i> Terms You Should Know</a></li>
+      <li><a href="#ourStory"><i class="fas fa-book-open"></i> Our Story</a></li>
+    </ul>
+    
+    <!-- Social Media Links -->
+    <ul class="social-links">
+      <li><a href="https://twitter.com/questforglory" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+      <li><a href="https://facebook.com/questforglory" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+      <li><a href="https://instagram.com/questforglory" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+      <li><a href="https://discord.gg/example" target="_blank"><i class="fab fa-discord"></i> Discord</a></li>
+    </ul>
+    
+    <!-- Rules and Guidelines -->
+    <a href="#rulesGuidelines" class="rules-button"><i class="fas fa-book"></i> Rules and Guidelines</a>
+    
+    <!-- Footer Support -->
+    <div class="footer-support">
+      <p>Need help? <a href="https://discord.gg/example"><i class="fab fa-discord"></i> Join our Discord Help Desk</a></p>
+    </div>
+    
+    <!-- Copyright -->
+    <div class="footer-copyright">
+      © 2024 Quest for Glory. All Rights Reserved. Not affiliated with EA Sports or its licensors.
+    </div>
+  </footer>
+  
+  <!-- Swiper.js JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  
+  <!-- Main JS -->
+  <script>
+    // Initialize Swiper for Hero Section
+    var heroSwiper = new Swiper('.hero .swiper-container', {
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.hero .swiper-pagination',
+        clickable: true,
+      },
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true
+      },
+    });
+    
+    // Initialize Swiper for Partners Carousel
+    var partnersSwiper = new Swiper('.partner-carousel', {
+      loop: true,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      slidesPerView: 4,
+      spaceBetween: 30,
+      breakpoints: {
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 30,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 20,
+        },
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        480: {
+          slidesPerView: 1,
+          spaceBetween: 5,
+        },
+      },
+      pagination: {
+        el: '.partner-carousel .swiper-pagination',
+        clickable: true,
+      },
+    });
+    
+    // Initialize AOS
+    AOS.init({
+      duration: 800, // Smoother animations
+      once: true,
+      easing: 'ease-in-out',
+    });
+    
+    // Hamburger Menu Toggle
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('active');
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+    
+    // Close mobile menu when a link is clicked
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+    
+    // Header Scroll Effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+    
+    // Smooth Scroll for Anchors
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        // If the link is for Discord or external, don't do smooth scroll
+        const href = this.getAttribute('href');
+        if (!href.startsWith('#')) return;
+        
+        e.preventDefault();
+        
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Countdown Timer Script
+    // Set the date and time for the next tournament (e.g., Dec 31, 2024)
+    const tournamentDate = new Date("Dec 31, 2024 23:59:59").getTime();
+
+    // Update the countdown every second
+    const countdownFunction = setInterval(function() {
+      
+      const now = new Date().getTime();
+      const distance = tournamentDate - now;
+      
+      // Time calculations for days, hours, minutes, and seconds
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      // Display the result in the corresponding elements
+      document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+      document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+      document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+      document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+      
+      // If the countdown is finished, display a message
+      if (distance < 0) {
+        clearInterval(countdownFunction);
+        document.getElementById("countdown").innerHTML = "Tournament Started!";
+      }
+    }, 1000);
+  </script>
+  
+</body>
+</html>
