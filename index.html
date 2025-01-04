@@ -31,8 +31,6 @@
 
   <!-- Main Styles -->
   <style>
-    /* [Your existing CSS styles here] */
-
     :root {
       --q4g-orange: #FF6700;
       --q4g-red: #FF0000;
@@ -283,6 +281,7 @@
       position: absolute;
       top: 1rem;
       right: 2rem;
+      transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
     }
     .user-info img {
       width: 40px; height: 40px;
@@ -300,7 +299,9 @@
       font-weight: 600;
     }
     .user-info.hidden {
-      display: none;
+      opacity: 0;
+      transform: scale(0.95);
+      pointer-events: none;
     }
     #signOutButton {
       margin-left: 1rem;
@@ -385,18 +386,12 @@
       margin: 0 0 1rem 0;            /* Remove default margins */
       padding: 0;                     /* Remove default padding */
       text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
-      text-align: center;
-      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
-      opacity: 0;
     }
     .hero-content p {
       font-size: 1.3rem;
       margin: 0 0 2rem 0;            /* Remove default margins */
       padding: 0;                     /* Remove default padding */
       text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-      text-align: center;
-      animation: fadeInUp 0.7s ease forwards; /* Faster animation */
-      opacity: 0;
     }
     .cta-btn {
       padding: 0.75rem 2rem;
@@ -415,8 +410,7 @@
       overflow: hidden;
       transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
       z-index: 0; /* Ensure stacking context */
-      animation: fadeInUp 0.9s ease forwards; /* Faster animation */
-      opacity: 0;
+      opacity: 1; /* Removed animation opacity */
     }
     .cta-btn::before {
       content: '';
@@ -452,8 +446,6 @@
       color: var(--q4g-orange);
       position: relative;
       display: inline-block;
-      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
-      opacity: 0;
     }
     .partners-section h2::after {
       content: '';
@@ -469,8 +461,7 @@
     .partner-carousel {
       max-width: 1200px;
       margin: 0 auto;
-      animation: fadeIn 0.7s ease forwards; /* Faster animation */
-      opacity: 0;
+      opacity: 1; /* Removed animation opacity */
     }
     .partner-carousel .swiper-slide {
       display: flex;
@@ -503,8 +494,6 @@
       color: var(--q4g-orange);
       position: relative;
       display: inline-block;
-      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
-      opacity: 0;
     }
     .player-section h2::after {
       content: '';
@@ -525,7 +514,6 @@
       margin: 0 auto;
       justify-items: center;
       text-align: left;
-      transition: all var(--transition-speed) ease;
     }
     .step {
       background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,103,0,0.15));
@@ -541,8 +529,6 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      animation: fadeInUp 0.6s ease forwards; /* Faster animation */
-      opacity: 0;
     }
     .step:hover {
       transform: translateY(-10px) scale(1.05);
@@ -596,8 +582,7 @@
       background: linear-gradient(45deg, #7289DA, #5b6eae);
       transition: all var(--transition-speed) ease;
       z-index: 2; /* Above steps */
-      animation: fadeIn 0.5s ease forwards;
-      opacity: 0;
+      opacity: 1; /* Removed animation opacity */
       position: relative;
       overflow: hidden;
       cursor: pointer;
@@ -635,8 +620,6 @@
       color: var(--q4g-orange);
       position: relative;
       display: inline-block;
-      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
-      opacity: 0;
     }
     .divisions-section h2::after {
       content: '';
@@ -657,8 +640,6 @@
       max-width: 1200px;
       margin: 0 auto;
       justify-items: center;
-      animation: fadeInUp 0.6s ease forwards; /* Faster animation */
-      opacity: 0;
     }
     .division-card {
       background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,103,0,0.1));
@@ -669,15 +650,11 @@
       border-radius: 20px;
       cursor: pointer;
       transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background 0.3s ease;
-      text-align: left;
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       overflow: hidden;
-      animation: fadeInUp 0.6s ease forwards; /* Faster animation */
-      opacity: 0;
     }
     .division-card:hover {
       transform: translateY(-10px) scale(1.05);
@@ -781,8 +758,6 @@
       color: var(--q4g-orange);
       position: relative;
       display: inline-block;
-      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
-      opacity: 0;
     }
     .live-byot-section h2::after {
       content: '';
@@ -798,8 +773,7 @@
     .live-byot-content {
       max-width: 800px;
       margin: 0 auto;
-      animation: fadeInUp 0.6s ease forwards; /* Faster animation */
-      opacity: 0;
+      opacity: 1; /* Removed animation opacity */
     }
     .live-byot-content iframe {
       width: 100%;
@@ -812,6 +786,57 @@
     }
     .live-byot-content iframe:hover {
       transform: scale(1.02);
+    }
+
+    /* ABOUT OUR QUEST */
+    .about-section {
+      background: #1A1A1A;
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-section h2 {
+      font-family: var(--q4g-font-heading);
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: var(--q4g-orange);
+      position: relative;
+      display: inline-block;
+    }
+    .about-section h2::after {
+      content: '';
+      width: 80px;
+      height: 4px;
+      background: var(--q4g-orange);
+      position: absolute;
+      left: 50%;
+      bottom: -20px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      color: var(--q4g-light-gray);
+      line-height: 1.8;
+    }
+    .about-images {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .about-images img {
+      width: 200px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform var(--transition-speed) ease;
+    }
+    .about-images img:hover {
+      transform: scale(1.05);
     }
 
     /* FOOTER */
@@ -924,19 +949,6 @@
     .footer-support a:hover::after {
       background: #4653c9;
     }
-    footer .rules-button {
-      /* Adjust margin or any additional styling if necessary */
-    }
-    footer .rules-button i {
-      /* Optional: Adjust icon size or color */
-    }
-    footer .footer-nav li a i,
-    footer .social-links li a i {
-      /* Optional: Adjust icon size or spacing */
-    }
-    footer p {
-      /* Optional: Additional paragraph styling */
-    }
 
     /* RESPONSIVE UPDATES */
     @media (max-width: 1024px) {
@@ -967,7 +979,8 @@
       }
       .player-section h2,
       .divisions-section h2,
-      .live-byot-section h2 {
+      .live-byot-section h2,
+      .about-section h2 {
         font-size: 1.5rem;
       }
       .steps-container {
@@ -1153,7 +1166,7 @@
           </div>
         </div>
       </div>
-      <!-- Moved Discord Button to Below the Steps -->
+      <!-- Discord Button -->
       <a
         class="discord-btn"
         href="https://discord.gg/example"
@@ -1166,13 +1179,31 @@
       </a>
     </section>
 
+    <!-- ABOUT OUR QUEST -->
+    <section class="about-section" data-aos="fade-up">
+      <h2>About Our Quest</h2>
+      <div class="about-content">
+        <p>
+          At Quest for Glory, we're revolutionizing the Pro Clubs community by creating the best gamemode in EA FC25. Our mission is to expand our reach across North America and eventually Europe and the rest of the world. We host high-stakes tournaments with substantial prizes and continuously invest in our community to ensure a top-tier competitive environment.
+        </p>
+        <p>
+          Join us on this epic journey as we elevate Pro Clubs to new heights, fostering a vibrant and competitive community where every player can shine.
+        </p>
+        <!-- Images for "Our Mission" and "Global Expansion" -->
+        <div class="about-images">
+          <img src="our-mission.jpg" alt="Our Mission">
+          <img src="global-expansion.jpg" alt="Global Expansion">
+        </div>
+      </div>
+    </section>
+
     <!-- OUR DIVISIONS (Redesigned) -->
     <section class="divisions-section" data-aos="fade-up">
       <h2>Our Divisions</h2>
       <div class="divisions-container">
         <!-- Division 1 -->
         <div class="division-card" data-aos="zoom-in" data-aos-delay="100">
-          <img src="qg.png" alt="Division 1 Icon" />
+          <img src="division1-logo.png" alt="Division 1 Icon" />
           <h3>Division 1</h3>
           <p><strong>Prize:</strong> $2000</p>
           <p>Compete at the highest level with the best players. Exclusive rewards and recognition await.</p>
@@ -1186,7 +1217,7 @@
         </div>
         <!-- Division 2 -->
         <div class="division-card" data-aos="zoom-in" data-aos-delay="200">
-          <img src="qg.png" alt="Division 2 Icon" />
+          <img src="division2-logo.png" alt="Division 2 Icon" />
           <h3>Division 2</h3>
           <p><strong>Prize:</strong> $1500</p>
           <p>Join a competitive yet accessible tier. Improve your skills and climb the ranks.</p>
@@ -1200,7 +1231,7 @@
         </div>
         <!-- Division 3 -->
         <div class="division-card" data-aos="zoom-in" data-aos-delay="300">
-          <img src="qg.png" alt="Division 3 Icon" />
+          <img src="division3-logo.png" alt="Division 3 Icon" />
           <h3>Division 3</h3>
           <p><strong>Prize:</strong> Discord Privileges</p>
           <p>Perfect for newcomers and casual players. Get in the game with zero entry fees!</p>
@@ -1213,7 +1244,6 @@
           </div>
         </div>
       </div>
-      <!-- Removed any undesired line below division cards if present -->
     </section>
 
     <!-- LIVE BYOT -->
@@ -1250,6 +1280,32 @@
       <i class="fas fa-book"></i> Rules and Guidelines
     </a>
     
+
+    
+    <div class="footer-support">
+      <p>Need help?
+        <a href="#privacyPolicy"><i class="fas fa-shield-alt"></i> How We Protect Your Data</a>
+      </p>
+    </div>
+    
+    <ul class="footer-nav">
+      <li><a href="#privacyPolicy"><i class="fas fa-shield-alt"></i> How We Protect Your Data</a></li>
+      <li><a href="#cookiesPolicy"><i class="fas fa-cookie-bite"></i> Our Cookie Practices</a></li>
+      <li><a href="#termsService"><i class="fas fa-file-contract"></i> Terms You Should Know</a></li>
+      <li><a href="#ourStory"><i class="fas fa-book-open"></i> Our Story</a></li>
+    </ul>
+    
+    <ul class="social-links">
+      <li><a href="https://twitter.com/questforglory" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+      <li><a href="https://facebook.com/questforglory" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+      <li><a href="https://instagram.com/questforglory" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+      <li><a href="https://discord.gg/example" target="_blank"><i class="fab fa-discord"></i> Discord</a></li>
+    </ul>
+    
+    <a href="#rulesGuidelines" class="rules-button">
+      <i class="fas fa-book"></i> Rules and Guidelines
+    </a>
+    
     <div class="footer-support">
       <p>Need help?
         <a href="https://discord.gg/example">
@@ -1258,7 +1314,7 @@
       </p>
     </div>
     
-    <div class="footer-copyright">
+    <div class="footer-copy">
       © 2024 Quest for Glory. All Rights Reserved. Not affiliated with EA Sports or its licensors.
     </div>
   </footer>
