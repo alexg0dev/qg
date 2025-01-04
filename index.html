@@ -1338,7 +1338,7 @@
     });
 
     /* ===========================
-       OAuth2 Login Flow
+       OAuth2 Login Flow (Frontend-Only)
     ============================ */
     // OAuth2 & Session Handling
     const userInfo = document.getElementById('userInfo');
@@ -1355,8 +1355,9 @@
     // Configuration
     // ===========================
     const CLIENT_ID = '1324622665323118642';
-    const REDIRECT_URI = 'https://alexg0dev.github.io/qg/'; // Ensure this matches your Netlify redirect URI
-    const BACKEND_TOKEN_ENDPOINT = '/.netlify/functions/discord-oauth'; // Relative path to the Netlify Function
+    const CLIENT_SECRET = 'ZavcjDgRv3hRBOdgyVQeY4Hj66-gKumP'; // **Insecure: Do not expose in frontend**
+    const REDIRECT_URI = 'https://alexg0dev.github.io/qg/'; // Ensure this matches your Discord app's redirect URI
+    const TOKEN_ENDPOINT = 'https://discord.com/api/oauth2/token';
 
     // ===========================
     // Session Management
@@ -1404,20 +1405,31 @@
     // ===========================
     async function handleOAuthCallback(code) {
       try {
-        // Send the code to the backend to exchange for an access token
-        const response = await fetch(BACKEND_TOKEN_ENDPOINT, {
+        // Prepare the data for the token exchange
+        const data = new URLSearchParams();
+        data.append('client_id', CLIENT_ID);
+        data.append('client_secret', CLIENT_SECRET);
+        data.append('grant_type', 'authorization_code');
+        data.append('code', code);
+        data.append('redirect_uri', REDIRECT_URI);
+        data.append('scope', 'identify');
+
+        // Make the POST request to exchange the code for an access token
+        const response = await fetch(TOKEN_ENDPOINT, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code }),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: data.toString(),
         });
 
-        const data = await response.json();
+        const tokenData = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.error_description || 'Token exchange failed.');
+          throw new Error(tokenData.error_description || 'Token exchange failed.');
         }
 
-        const accessToken = data.access_token;
+        const accessToken = tokenData.access_token;
 
         // Fetch user info from Discord
         const userResponse = await fetch('https://discord.com/api/users/@me', {
@@ -1450,7 +1462,7 @@
     // Event Listeners
     // ===========================
     // Event listener for login buttons
-    async function initiateOAuth() {
+    function initiateOAuth() {
       const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=identify`;
       window.location.href = discordAuthUrl;
     }
