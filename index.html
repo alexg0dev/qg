@@ -4,19 +4,31 @@
   <meta charset="UTF-8">
   <title>Quest for Glory - Homepage</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
   <!-- Swiper.js CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/swiper/swiper-bundle.min.css"
+  />
+
   <!-- AOS CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+  />
+
   <!-- Main Styles -->
   <style>
     :root {
@@ -28,19 +40,17 @@
       --q4g-light-gray: #D4D4D4;
       --q4g-font-heading: 'Montserrat', sans-serif;
       --q4g-font-body: 'Poppins', sans-serif;
-      --transition-speed: 0.3s;
+      --transition-speed: 0.3s; /* Faster for snappier animations */
       --button-height: 50px;
+      --card-shadow: rgba(255, 103, 0, 0.5);
     }
-    
-    /* ---------------------------------------------------------- */
-    /* GLOBAL & RESET */
-    /* ---------------------------------------------------------- */
+
+    /* RESET */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    
     body {
       font-family: var(--q4g-font-body);
       background: var(--q4g-black);
@@ -51,7 +61,6 @@
       flex-direction: column;
       min-height: 100vh;
     }
-    
     a {
       text-decoration: none;
       color: inherit;
@@ -60,40 +69,32 @@
     a:hover {
       color: var(--q4g-orange);
     }
-    
     img {
       max-width: 100%;
       display: block;
     }
-    
-    /* ---------------------------------------------------------- */
+
     /* HEADER */
-    /* ---------------------------------------------------------- */
     header {
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(26, 26, 26, 0.95);
+      background: var(--q4g-black); /* Fully opaque */
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5); /* Enhanced shadow */
       transition: background var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-    header.scrolled {
-      background: var(--q4g-black);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    }
+
     .brand {
       display: flex;
       align-items: center;
-      animation: fadeInDown 1s ease-out;
     }
     .brand-logo img {
       width: 60px;
-      height: auto;
       margin-right: 0.5rem;
       border-radius: 8px;
       transition: transform var(--transition-speed) ease;
@@ -107,10 +108,9 @@
       font-family: var(--q4g-font-heading);
       font-weight: 700;
       letter-spacing: 1px;
-      animation: fadeInUp 1s ease-out;
-      pointer-events: none;
+      pointer-events: none; /* No hover effect */
     }
-    
+
     nav {
       display: flex;
       align-items: center;
@@ -120,17 +120,16 @@
       list-style: none;
       display: flex;
       gap: 1.5rem;
-      animation: fadeInUp 1s ease-out;
     }
     .nav-links li a {
       font-size: 1rem;
       font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
-      position: relative;
-      padding: 0.5rem;
+      transition: transform var(--transition-speed) ease;
     }
     .nav-links li a::after {
       content: '';
@@ -146,18 +145,16 @@
       width: 100%;
     }
     .nav-links li a:hover {
-      color: var(--q4g-orange);
       transform: translateY(-3px);
     }
-    
-    /* Hamburger Menu */
+
+    /* HAMBURGER */
     .hamburger {
       display: none;
       flex-direction: column;
-      cursor: pointer;
       gap: 5px;
+      cursor: pointer;
       z-index: 1100;
-      animation: fadeInUp 1s ease-out;
     }
     .hamburger div {
       width: 25px;
@@ -165,7 +162,6 @@
       background: var(--q4g-white);
       transition: all var(--transition-speed) ease;
     }
-    /* Hamburger Active Animation */
     .hamburger.active div:nth-child(1) {
       transform: rotate(45deg) translate(5px, 5px);
     }
@@ -175,8 +171,8 @@
     .hamburger.active div:nth-child(3) {
       transform: rotate(-45deg) translate(5px, -5px);
     }
-    
-    /* Mobile Menu */
+
+    /* MOBILE MENU */
     .mobile-menu {
       position: fixed;
       top: 0;
@@ -188,7 +184,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: right var(--transition-speed) ease;
       gap: 2rem;
       z-index: 999;
       visibility: hidden;
@@ -199,9 +194,8 @@
       right: 0;
       visibility: visible;
       opacity: 1;
-      animation: slideInRight 0.5s forwards;
+      animation: slideInRight 0.3s forwards;
     }
-    
     @keyframes slideInRight {
       from { right: -100%; }
       to   { right: 0; }
@@ -218,7 +212,7 @@
       font-weight: 600;
       color: var(--q4g-white);
       position: relative;
-      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      transition: transform var(--transition-speed) ease;
     }
     .mobile-menu a::after {
       content: '';
@@ -234,18 +228,16 @@
       width: 100%;
     }
     .mobile-menu a:hover {
-      color: var(--q4g-orange);
-      transform: translateX(10px);
+      transform: translateY(-3px);
     }
-    
-    /* Login Button */
+
+    /* LOGIN BUTTON (with animation) */
     .login-btn {
       padding: 0.5rem 1.5rem;
       border: 2px solid var(--q4g-orange);
       border-radius: 25px;
       color: var(--q4g-orange);
       font-weight: 600;
-      transition: background var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
@@ -257,44 +249,35 @@
       font-family: var(--q4g-font-heading);
       font-size: 1rem;
       text-decoration: none;
+      transition: transform var(--transition-speed) ease;
+      z-index: 0; /* Ensure stacking context */
     }
-    .auth-buttons a {
-      font-family: var(--q4g-font-heading);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: var(--button-height);
-    }
-    .auth-buttons a::before, 
-    .auth-buttons button::before {
+    .login-btn::before {
       content: '';
       position: absolute;
       top: 0; left: -100%;
       width: 100%; height: 100%;
       background: var(--q4g-orange);
-      transition: all var(--transition-speed) ease;
       transform: skewX(-45deg);
-      z-index: -1;
+      transition: all var(--transition-speed) ease;
+      z-index: -1; /* Place behind text */
     }
-    .auth-buttons a:hover::before,
-    .auth-buttons button:hover::before {
+    .login-btn:hover::before {
       left: 0;
     }
-    .auth-buttons a:hover,
-    .auth-buttons button:hover {
+    .login-btn:hover {
       color: var(--q4g-white);
       transform: translateY(-3px);
     }
     .auth-buttons.hidden {
       display: none;
     }
-    
-    /* User Info in Header */
+
+    /* USER INFO */
     .user-info {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      animation: fadeInUp 1s ease-out;
     }
     .user-info img {
       width: 40px; height: 40px;
@@ -310,7 +293,6 @@
     .user-info span {
       font-size: 1rem;
       font-weight: 600;
-      color: var(--q4g-white);
     }
     .user-info.hidden {
       display: none;
@@ -330,33 +312,40 @@
       background: #cc0000;
       transform: translateY(-3px);
     }
-    
-    /* ---------------------------------------------------------- */
-    /* HERO SECTION */
-    /* ---------------------------------------------------------- */
+
+    /* HERO */
     .hero {
       position: relative;
       width: 100%;
       height: calc(100vh - 80px);
       overflow: hidden;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--q4g-white);
+      align-items: center;       /* Vertically center */
+      justify-content: center;   /* Horizontally center */
       text-align: center;
       margin-top: 80px;
       background: #000;
-      animation: fadeIn 1.5s ease-out;
+      box-shadow: inset 0 0 50px rgba(255,103,0,0.3);
     }
     .hero .swiper-container {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
+      z-index: 1;                /* Behind hero-content */
+    }
+    .decorative-shape {
+      position: absolute;
+      top: 50%; 
+      left: 50%;
+      transform: translate(-50%, -50%); /* Center the SVG */
+      width: 200px;                      /* Adjust size as needed */
+      height: 200px;                     /* Adjust size as needed */
+      z-index: 2;                        /* Above video */
     }
     .hero .swiper-slide video {
       width: 100%; height: 100%;
       object-fit: cover;
-      box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
       transition: transform var(--transition-speed) ease;
       z-index: -1;
       pointer-events: none;
@@ -369,15 +358,14 @@
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 0;
-      pointer-events: none;
+      background: rgba(0,0,0,0.4);
+      z-index: 1;
     }
     .hero-content {
-      z-index: 2;
+      z-index: 3;
+      width: 100%;              /* Ensure full width */
       max-width: 800px;
       padding: 0 1rem;
-      animation: fadeInUp 1s ease-out;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -389,15 +377,21 @@
     .hero-content h1 {
       font-family: var(--q4g-font-heading);
       font-size: 3rem;
-      margin-bottom: 1rem;
-      animation: slideInDown 1s ease-out;
+      margin: 0 0 1rem 0;            /* Remove default margins */
+      padding: 0;                     /* Remove default padding */
       text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+      text-align: center;
+      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .hero-content p {
       font-size: 1.3rem;
-      margin-bottom: 2rem;
-      animation: fadeIn 1.5s ease-out;
+      margin: 0 0 2rem 0;            /* Remove default margins */
+      padding: 0;                     /* Remove default padding */
       text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+      text-align: center;
+      animation: fadeInUp 0.7s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .cta-btn {
       padding: 0.75rem 2rem;
@@ -407,76 +401,54 @@
       border: none;
       border-radius: 30px;
       cursor: pointer;
-      transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      text-decoration: none;
       box-shadow: 0 6px 12px rgba(0,0,0,0.4);
       background: linear-gradient(45deg, var(--q4g-orange), #ff8f00);
       position: relative;
       overflow: hidden;
-      animation: pulse 2s infinite;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      z-index: 0; /* Ensure stacking context */
+      animation: fadeInUp 0.9s ease forwards; /* Faster animation */
+      opacity: 0;
     }
-    .cta-btn::after {
+    .cta-btn::before {
       content: '';
       position: absolute;
-      top: 0; left: -50%;
+      top: 0; left: -100%;
       width: 100%; height: 100%;
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--q4g-orange);
       transform: skewX(-45deg);
-      transition: transform var(--transition-speed) ease;
+      transition: all var(--transition-speed) ease;
+      z-index: -1; /* Place behind text */
     }
-    .cta-btn:hover::after {
-      transform: translateX(100%) skewX(-45deg);
+    .cta-btn:hover::before {
+      left: 0;
     }
     .cta-btn:hover {
-      background: linear-gradient(45deg, #e65a00, #ff7f50);
+      color: var(--q4g-white);
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0,0,0,0.5);
     }
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0.7);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(255, 103, 0, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0);
-      }
-    }
-    .hero .decorative-shape {
-      position: absolute;
-      bottom: 10%;
-      right: 5%;
-      width: 150px;
-      opacity: 0.3;
-      z-index: 1;
-      animation: float 6s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    
-    /* ---------------------------------------------------------- */
-    /* PARTNERS SLIDESHOW */
-    /* ---------------------------------------------------------- */
+
+    /* PARTNERS */
     .partners-section {
       background: #141414;
       padding: 4rem 2rem;
       text-align: center;
-      animation: fadeInUp 1s ease-out;
+      position: relative;
       overflow: hidden;
     }
     .partners-section h2 {
       font-family: var(--q4g-font-heading);
       font-size: 2rem;
       margin-bottom: 2rem;
+      color: var(--q4g-orange);
       position: relative;
       display: inline-block;
-      color: var(--q4g-orange);
+      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .partners-section h2::after {
       content: '';
@@ -489,6 +461,12 @@
       transform: translateX(-50%);
       border-radius: 2px;
     }
+    .partner-carousel {
+      max-width: 1200px;
+      margin: 0 auto;
+      animation: fadeIn 0.7s ease forwards; /* Faster animation */
+      opacity: 0;
+    }
     .partner-carousel .swiper-slide {
       display: flex;
       align-items: center;
@@ -498,192 +476,222 @@
       height: 80px;
       width: auto;
       filter: grayscale(70%);
-      transition: filter var(--transition-speed) ease, transform var(--transition-speed) ease;
+      transition: transform var(--transition-speed) ease, filter var(--transition-speed) ease;
       border-radius: 8px;
     }
     .partner-carousel img:hover {
       filter: grayscale(0%);
       transform: scale(1.1);
     }
-    
-    /* ---------------------------------------------------------- */
-    /* REMOVED: "Why Play with Us?" SECTION */
-    /* ---------------------------------------------------------- */
-    
-    /* ---------------------------------------------------------- */
-    /* BECOME A PLAYER SECTION (Improved) */
-    /* ---------------------------------------------------------- */
+
+    /* BECOME A PLAYER */
     .player-section {
-      background: radial-gradient(circle, rgba(255,103,0,0.05), #111111 70%);
+      background: radial-gradient(circle, rgba(255,103,0,0.1) 0%, #111111 60%);
       padding: 5rem 2rem;
       text-align: center;
       position: relative;
-      animation: fadeInUp 1s ease-out;
     }
     .player-section h2 {
       font-family: var(--q4g-font-heading);
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin-bottom: 3rem;
+      color: var(--q4g-orange);
       position: relative;
       display: inline-block;
-      color: var(--q4g-orange);
+      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .player-section h2::after {
       content: '';
-      width: 60px;
+      width: 80px;
       height: 4px;
       background: var(--q4g-orange);
       position: absolute;
       left: 50%;
-      bottom: -15px;
+      bottom: -20px;
       transform: translateX(-50%);
       border-radius: 2px;
     }
     .steps-container {
-      display: flex; 
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
       max-width: 1200px;
       margin: 0 auto;
-      animation: fadeInUp 1s ease-out;
-      justify-content: center;
+      justify-items: center;
       text-align: left;
+      transition: all var(--transition-speed) ease;
     }
     .step {
-      background: linear-gradient(
-        135deg,
-        rgba(255,255,255,0.05),
-        rgba(255,103,0,0.15)
-      );
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,103,0,0.15));
       border: 1px solid rgba(255,255,255,0.1);
-      width: 280px;
+      width: 100%;
+      max-width: 350px;
       padding: 1.5rem;
       border-radius: 20px;
-      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background 0.3s ease;
       display: flex;
       align-items: flex-start;
       gap: 1rem;
-      position: relative;
       cursor: pointer;
-      animation: fadeInUp 1s ease-out;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .step:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(255,103,0,0.3);
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 15px 30px var(--card-shadow);
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,103,0,0.2));
     }
     .step-number {
       background: var(--q4g-orange);
       color: var(--q4g-black);
-      min-width: 40px;
-      height: 40px;
+      min-width: 50px;
+      height: 50px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       font-weight: 700;
       flex-shrink: 0;
-      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-      animation: pulseStepNumber 6s infinite;
+      transition: background var(--transition-speed) ease;
+    }
+    .step-number:hover {
+      background: var(--q4g-red);
+      color: var(--q4g-white);
     }
     .step-content h4 {
       color: var(--q4g-orange);
       margin-bottom: 0.5rem;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-family: var(--q4g-font-heading);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .step-content h4 i {
-      color: var(--q4g-orange);
     }
     .step-content p {
       color: var(--q4g-light-gray);
       font-size: 1rem;
       line-height: 1.6;
     }
+
+    /* JOIN DISCORD BUTTON */
     .discord-btn {
-      margin-top: 2rem;
+      margin-top: 3rem;
+      padding: 0.75rem 1.5rem;
       background: #7289DA;
       color: #fff;
-      padding: 0.75rem 1.5rem;
+      border: none;
       border-radius: 30px;
       font-size: 1rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
       text-decoration: none;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
       background: linear-gradient(45deg, #7289DA, #5b6eae);
+      transition: all var(--transition-speed) ease;
+      z-index: 2; /* Above steps */
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
       position: relative;
       overflow: hidden;
-      animation: pulseDiscord 2s infinite;
     }
-    
-    /* ---------------------------------------------------------- */
-    /* OUR DIVISIONS SECTION (Refined) */
-    /* ---------------------------------------------------------- */
+    .discord-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.1);
+      transform: skewX(-45deg);
+      transition: transform var(--transition-speed) ease;
+      z-index: -1; /* Place behind text */
+    }
+    .discord-btn:hover::before {
+      transform: translateX(100%) skewX(-45deg);
+    }
+    .discord-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+    }
+
+    /* OUR DIVISIONS */
     .divisions-section {
-      background: #181818;
+      background: #1A1A1A;
       padding: 4rem 2rem;
       text-align: center;
       position: relative;
-      animation: fadeInUp 1s ease-out;
+      overflow: hidden;
     }
     .divisions-section h2 {
       font-family: var(--q4g-font-heading);
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin-bottom: 3rem;
+      color: var(--q4g-orange);
       position: relative;
       display: inline-block;
-      color: var(--q4g-orange);
+      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .divisions-section h2::after {
       content: '';
-      width: 60px;
+      width: 80px;
       height: 4px;
       background: var(--q4g-orange);
       position: absolute;
       left: 50%;
-      bottom: -15px;
+      bottom: -20px;
       transform: translateX(-50%);
       border-radius: 2px;
     }
+
+    /* Removed the undesired line below the division cards by ensuring only h2::after is present */
+
     .divisions-container {
-      display: flex; 
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
       max-width: 1200px;
       margin: 0 auto;
-      justify-content: center;
+      justify-items: center;
+      animation: fadeInUp 0.6s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .division-card {
-      background: linear-gradient(
-        135deg,
-        rgba(255,255,255,0.05),
-        rgba(255,103,0,0.1)
-      );
-      width: 280px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,103,0,0.1));
+      width: 100%;
+      max-width: 350px;
       padding: 2rem 1.5rem;
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 20px;
       cursor: pointer;
-      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background var(--transition-speed) ease;
-      position: relative;
-      animation: fadeInUp 1s ease-out;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background 0.3s ease;
       text-align: left;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .division-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(255,103,0,0.3);
-      background: linear-gradient(
-        135deg,
-        rgba(255,255,255,0.07),
-        rgba(255,103,0,0.15)
-      );
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 15px 30px var(--card-shadow);
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,103,0,0.2));
+    }
+    .division-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      transition: transform var(--transition-speed) ease;
+    }
+    /* Rotate the logo when hovering over the entire card */
+    .division-card:hover img {
+      transform: rotate(360deg);
     }
     .division-card h3 {
       color: var(--q4g-orange);
@@ -692,20 +700,30 @@
       font-family: var(--q4g-font-heading);
       position: relative;
     }
+    .division-card h3::after {
+      content: '';
+      width: 30px;
+      height: 3px;
+      background: var(--q4g-orange);
+      position: absolute;
+      left: 50%;
+      bottom: -10px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
     .division-card p {
-      color: var(--q4g-light_gray);
+      color: var(--q4g-light-gray);
       font-size: 1rem;
       line-height: 1.6;
       margin-bottom: 1rem;
     }
     .apply-btn {
       padding: 0.5rem 1.5rem;
-      background: var(--q4g-orange);
+      border-radius: 25px;
       color: var(--q4g-white);
       font-size: 1rem;
       font-weight: 600;
       border: none;
-      border-radius: 25px;
       cursor: pointer;
       transition: background var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
       display: inline-flex;
@@ -716,47 +734,69 @@
       background: linear-gradient(45deg, var(--q4g-orange), #ff8f00);
       position: relative;
       overflow: hidden;
-      animation: pulse 2s infinite;
+      z-index: 0; /* Ensure stacking context */
+    }
+    .apply-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--q4g-orange);
+      transform: skewX(-45deg);
+      transition: all var(--transition-speed) ease;
+      z-index: -1; /* Place behind text */
+    }
+    .apply-btn:hover::before {
+      left: 0;
     }
     .apply-btn:hover {
       background: linear-gradient(45deg, #e65a00, #ff7f50);
       transform: translateY(-3px);
       box-shadow: 0 6px 10px rgba(0,0,0,0.4);
     }
-    
-    /* ---------------------------------------------------------- */
-    /* LIVE BYOT SECTION */
-    /* ---------------------------------------------------------- */
+    .team-count {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--q4g-light-gray);
+    }
+    .team-count span:first-child {
+      font-weight: 600;
+    }
+
+    /* LIVE BYOT */
     .live-byot-section {
       background: #141414;
       padding: 4rem 2rem;
       text-align: center;
-      position: relative;
-      animation: fadeInUp 1s ease-out;
     }
     .live-byot-section h2 {
       font-family: var(--q4g-font-heading);
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin-bottom: 2rem;
+      color: var(--q4g-orange);
       position: relative;
       display: inline-block;
-      color: var(--q4g-orange);
+      animation: fadeInUp 0.5s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .live-byot-section h2::after {
       content: '';
-      width: 60px;
+      width: 80px;
       height: 4px;
       background: var(--q4g-orange);
       position: absolute;
       left: 50%;
-      bottom: -15px;
+      bottom: -20px;
       transform: translateX(-50%);
       border-radius: 2px;
     }
     .live-byot-content {
       max-width: 800px;
       margin: 0 auto;
-      animation: fadeInUp 1s ease-out;
+      animation: fadeInUp 0.6s ease forwards; /* Faster animation */
+      opacity: 0;
     }
     .live-byot-content iframe {
       width: 100%;
@@ -765,14 +805,13 @@
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
       transition: transform var(--transition-speed) ease;
+      z-index: 1; /* Ensure iframe stays above pseudo-elements */
     }
     .live-byot-content iframe:hover {
       transform: scale(1.02);
     }
-    
-    /* ---------------------------------------------------------- */
+
     /* FOOTER */
-    /* ---------------------------------------------------------- */
     footer {
       background: var(--q4g-black);
       color: #ccc;
@@ -780,49 +819,40 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      animation: fadeInUp 1s ease-out;
-      z-index: 100;
       margin-top: auto;
       border-top: 2px solid var(--q4g-gray);
     }
-    .footer-nav,
-    .social-links {
+    .footer-nav, .social-links {
       list-style: none;
       display: flex;
       gap: 1.5rem;
       margin-bottom: 1.5rem;
       flex-wrap: wrap;
       justify-content: center;
-      animation: fadeInUp 1s ease-out;
     }
-    .footer-nav a,
-    .social-links a {
+    .footer-nav a, .social-links a {
       font-size: 0.9rem;
       font-weight: 500;
       color: #ccc;
       display: flex;
       align-items: center;
       gap: 0.3rem;
-      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
       position: relative;
+      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
     }
-    .footer-nav a::after,
-    .social-links a::after {
+    .footer-nav a::after, .social-links a::after {
       content: '';
       width: 0%;
       height: 2px;
       background: var(--q4g-orange);
       position: absolute;
-      bottom: 0;
-      left: 0;
+      bottom: 0; left: 0;
       transition: width var(--transition-speed) ease;
     }
-    .footer-nav a:hover::after,
-    .social-links a:hover::after {
+    .footer-nav a:hover::after, .social-links a:hover::after {
       width: 100%;
     }
-    .footer-nav a:hover,
-    .social-links a:hover {
+    .footer-nav a:hover, .social-links a:hover {
       color: var(--q4g-orange);
       transform: translateY(-3px);
     }
@@ -833,15 +863,14 @@
       border-radius: 25px;
       color: var(--q4g-orange);
       font-weight: 600;
-      transition: background var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
       margin-bottom: 1.5rem;
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
-      animation: fadeInUp 1s ease-out;
       position: relative;
       overflow: hidden;
       cursor: pointer;
+      transition: transform var(--transition-speed) ease;
     }
     .rules-button::after {
       content: '';
@@ -849,9 +878,9 @@
       top: 0; left: -100%;
       width: 100%; height: 100%;
       background: var(--q4g-orange);
-      transition: all var(--transition-speed) ease;
       transform: skewX(-45deg);
-      z-index: -1;
+      transition: all var(--transition-speed) ease;
+      z-index: -1; /* Place behind text */
     }
     .rules-button:hover::after {
       left: 0;
@@ -863,7 +892,6 @@
     .footer-support {
       margin-bottom: 1.5rem;
       font-size: 0.95rem;
-      animation: fadeInUp 1s ease-out;
     }
     .footer-support a {
       color: #5865F2;
@@ -871,8 +899,8 @@
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
-      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
       position: relative;
+      transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
     }
     .footer-support a::after {
       content: '';
@@ -880,8 +908,7 @@
       height: 2px;
       background: #5865F2;
       position: absolute;
-      bottom: 0;
-      left: 0;
+      bottom: 0; left: 0;
       transition: width var(--transition-speed) ease;
     }
     .footer-support a:hover::after {
@@ -894,89 +921,29 @@
     .footer-support a:hover::after {
       background: #4653c9;
     }
-    .footer-copyright {
-      font-size: 0.75rem;
-      color: #999;
-      text-align: center;
-      animation: fadeInUp 1s ease-out;
+    footer .rules-button {
+      /* Adjust margin or any additional styling if necessary */
     }
-    
-    /* ---------------------------------------------------------- */
-    /* KEYFRAMES & MEDIA QUERIES */
-    /* ---------------------------------------------------------- */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    footer .rules-button i {
+      /* Optional: Adjust icon size or color */
     }
-    @keyframes slideInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    footer .footer-nav li a i,
+    footer .social-links li a i {
+      /* Optional: Adjust icon size or spacing */
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+    footer p {
+      /* Optional: Additional paragraph styling */
     }
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    @keyframes slideInRight {
-      from {
-        right: -100%;
-      }
-      to {
-        right: 0;
-      }
-    }
-    @keyframes pulseStepNumber {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0.5);
-      }
-      70% {
-        transform: scale(1.2);
-        box-shadow: 0 0 0 10px rgba(255, 103, 0, 0);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 103, 0, 0);
-      }
-    }
-    
+
+    /* RESPONSIVE UPDATES */
     @media (max-width: 1024px) {
-      .nav-links {
-        display: none;
-      }
-      .hamburger {
-        display: flex;
-      }
-      .divisions-container {
-        flex-direction: column;
-        align-items: center;
-      }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
       .partner-carousel {
-        justify-content: center;
+        max-width: 90%;
+        margin: 0 auto;
       }
     }
-    
     @media (max-width: 768px) {
       .hero {
         margin-top: 60px;
@@ -995,17 +962,13 @@
       .partner-carousel img {
         height: 60px;
       }
-      .player-section h2, 
-      .divisions-section h2, 
+      .player-section h2,
+      .divisions-section h2,
       .live-byot-section h2 {
         font-size: 1.5rem;
       }
-      .division-card {
-        width: 90%;
-      }
       .steps-container {
-        flex-direction: column;
-        gap: 1rem;
+        grid-template-columns: 1fr;
       }
       .step {
         width: 100%;
@@ -1020,20 +983,39 @@
       .user-info {
         display: none;
       }
+      .division-card {
+        max-width: 100%;
+      }
+      /* Adjust Discord button position on smaller screens */
+      .discord-btn {
+        margin-top: 2rem;
+      }
+    }
+
+    /* KEYFRAMES */
+    @keyframes slideInRight {
+      from { right: -100%; }
+      to   { right: 0; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  
   <!-- HEADER -->
   <header id="header">
     <div class="brand">
       <div class="brand-logo">
-        <img src="q4g.jpg" alt="Quest for Glory Logo">
+        <img src="qg.png" alt="Quest for Glory Logo" />
       </div>
       <div class="brand-text">Quest for Glory</div>
     </div>
-    
     <nav>
       <ul class="nav-links">
         <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
@@ -1043,8 +1025,8 @@
         <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
       </ul>
       <div class="auth-buttons">
-        <!-- Login Button as a Link -->
-        <a 
+        <!-- Login Button (animated) -->
+        <a
           href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fqg%2F&scope=identify%20email"
           aria-label="Login with Discord"
           class="login-btn"
@@ -1058,16 +1040,14 @@
         <div></div>
       </div>
     </nav>
-    
-    <!-- User Info (hidden by default) -->
+    <!-- USER INFO (hidden by default) -->
     <div class="user-info hidden" id="userInfo">
-      <a href="profile.html" id="userProfileLink"><img src="" alt="User Profile Picture" id="userProfilePic"></a>
+      <a href="profile.html" id="userProfileLink"><img src="" alt="User Profile Picture" id="userProfilePic" /></a>
       <span id="userName"></span>
       <button id="signOutButton">Sign Out</button>
     </div>
-    
-    <!-- Mobile Menu -->
-    <div class="mobile-menu hidden" id="mobile-menu">
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobile-menu">
       <ul>
         <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
         <li><a href="#"><i class="fas fa-trophy"></i> Competitions</a></li>
@@ -1076,8 +1056,8 @@
         <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
       </ul>
       <div class="auth-buttons">
-        <!-- Login Button as a Link -->
-        <a 
+        <!-- Login Button -->
+        <a
           href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fqg%2F&scope=identify%20email"
           aria-label="Login with Discord"
           class="login-btn"
@@ -1087,128 +1067,166 @@
       </div>
     </div>
   </header>
-  
-  <!-- MAIN CONTENT -->
+
+  <!-- MAIN -->
   <main>
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section class="hero" id="hero">
       <div class="swiper-container">
         <div class="swiper-wrapper">
-          <!-- Slides -->
+          <!-- Slide 1 -->
           <div class="swiper-slide">
             <video autoplay muted loop playsinline>
-              <source src="clip1.mp4" type="video/mp4">
+              <source src="clip1.mp4" type="video/mp4" />
             </video>
           </div>
-
-          </div>
+          <!-- Add more slides as needed -->
         </div>
+        <!-- Pagination (dots) -->
         <div class="swiper-pagination"></div>
       </div>
-      
+      <!-- Decorative Shape -->
       <svg class="decorative-shape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50" fill="#FF6700" opacity="0.3"/>
+        <circle cx="50" cy="50" r="50" fill="#FF6700" opacity="0.3" />
       </svg>
-      
       <div class="hero-content" data-aos="fade-up">
         <h1>Welcome to Quest for Glory</h1>
         <p>Revolutionizing Pro Clubs to Make It the Best in North America.</p>
-        <a class="cta-btn" href="#becomePlayer"><i class="fas fa-play"></i> Get to Playing</a>
+        <a class="cta-btn" href="#becomePlayer">
+          <i class="fas fa-play"></i> Get to Playing
+        </a>
       </div>
     </section>
-    
-    <!-- PARTNERS SLIDESHOW -->
+
+    <!-- PARTNERS (Centered) -->
     <section class="partners-section" data-aos="fade-up">
       <h2>Our Partners</h2>
       <div class="swiper-container partner-carousel">
         <div class="swiper-wrapper">
-          <div class="swiper-slide"><img src="psv.png" alt="PSV Partner"></div>
-          <div class="swiper-slide"><img src="psf.png" alt="PSF Partner"></div>
-          <div class="swiper-slide"><img src="dortmund.png" alt="Dortmund Partner"></div>
-          <div class="swiper-slide"><img src="intermiami.png" alt="Inter Miami Partner"></div>
+          <div class="swiper-slide"><img src="psv.png" alt="PSV Partner" /></div>
+          <div class="swiper-slide"><img src="psf.png" alt="PSF Partner" /></div>
+          <div class="swiper-slide"><img src="dortmund.png" alt="Dortmund Partner" /></div>
+          <div class="swiper-slide"><img src="intermiami.png" alt="Inter Miami Partner" /></div>
+          <!-- Add more partner logos as needed -->
         </div>
         <div class="swiper-pagination"></div>
       </div>
     </section>
-    
-    <!-- BECOME A PLAYER SECTION (Improved) -->
+
+    <!-- BECOME A PLAYER (Enhanced Design) -->
     <section class="player-section" id="becomePlayer" data-aos="fade-up">
       <h2>Become a Player</h2>
       <div class="steps-container">
-        <div class="step" data-aos="fade-right" data-aos-delay="100">
+        <!-- Step 1 -->
+        <div class="step" data-aos="flip-left" data-aos-delay="100">
           <div class="step-number">1</div>
           <div class="step-content">
-            <h4><i class="fas fa-users"></i> Join Our Discord Server</h4>
-            <p>Connect with players and teams, and get official updates.</p>
+            <h4>Join Our Discord Server</h4>
+            <p>Connect with players and teams, and get official updates in real time.</p>
           </div>
         </div>
-        <div class="step" data-aos="fade-left" data-aos-delay="200">
+        <!-- Step 2 -->
+        <div class="step" data-aos="flip-right" data-aos-delay="200">
           <div class="step-number">2</div>
           <div class="step-content">
-            <h4><i class="fas fa-gamepad"></i> Pick Your Console</h4>
+            <h4>Pick Your Console</h4>
             <p>Available for both PlayStation and Xbox. More platforms coming soon!</p>
           </div>
         </div>
-        <div class="step" data-aos="fade-right" data-aos-delay="300">
+        <!-- Step 3 -->
+        <div class="step" data-aos="flip-left" data-aos-delay="300">
           <div class="step-number">3</div>
           <div class="step-content">
-            <h4><i class="fas fa-user-tag"></i> Choose Your Role</h4>
-            <p>Whether you’re a free agent or a returning champion, we’ve got a place for you.</p>
+            <h4>Choose Your Role</h4>
+            <p>Whether you’re a free agent or a returning champion, there’s a place for you.</p>
           </div>
         </div>
-        <div class="step" data-aos="fade-left" data-aos-delay="400">
+        <!-- Step 4 -->
+        <div class="step" data-aos="flip-right" data-aos-delay="400">
           <div class="step-number">4</div>
           <div class="step-content">
-            <h4><i class="fas fa-clipboard-check"></i> Announce Your Skills</h4>
+            <h4>Announce Your Skills</h4>
             <p>Post in the Free Agent chat with your experience, gamertag, and position. Get scouted!</p>
           </div>
         </div>
-        <a class="discord-btn" href="https://discord.gg/example" target="_blank" aria-label="Join Quest for Glory Discord Server">
-          <i class="fab fa-discord"></i> Join Discord
-        </a>
       </div>
+      <!-- Moved Discord Button to Below the Steps -->
+      <a
+        class="discord-btn"
+        href="https://discord.gg/example"
+        target="_blank"
+        aria-label="Join Quest for Glory Discord Server"
+        data-aos="zoom-in"
+        data-aos-delay="500"
+      >
+        <i class="fab fa-discord"></i> Join Discord
+      </a>
     </section>
-    
-    <!-- OUR DIVISIONS SECTION (Refined) -->
+
+    <!-- OUR DIVISIONS (Redesigned) -->
     <section class="divisions-section" data-aos="fade-up">
       <h2>Our Divisions</h2>
       <div class="divisions-container">
+        <!-- Division 1 -->
         <div class="division-card" data-aos="zoom-in" data-aos-delay="100">
+          <img src="qg.png" alt="Division 1 Icon" />
           <h3>Division 1</h3>
           <p><strong>Prize:</strong> $2000</p>
           <p>Compete at the highest level with the best players. Exclusive rewards and recognition await.</p>
-          <a href="#applyDiv1" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
+          <a href="#applyDiv1" class="apply-btn">
+            <i class="fas fa-arrow-right"></i> Apply
+          </a>
+          <div class="team-count">
+            <span>Teams:</span>
+            <span>50</span>
+          </div>
         </div>
-        
+        <!-- Division 2 -->
         <div class="division-card" data-aos="zoom-in" data-aos-delay="200">
+          <img src="qg.png" alt="Division 2 Icon" />
           <h3>Division 2</h3>
           <p><strong>Prize:</strong> $1500</p>
           <p>Join a competitive yet accessible tier. Improve your skills and climb the ranks.</p>
-          <a href="#applyDiv2" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
+          <a href="#applyDiv2" class="apply-btn">
+            <i class="fas fa-arrow-right"></i> Apply
+          </a>
+          <div class="team-count">
+            <span>Teams:</span>
+            <span>30</span>
+          </div>
         </div>
-        
+        <!-- Division 3 -->
         <div class="division-card" data-aos="zoom-in" data-aos-delay="300">
+          <img src="qg.png" alt="Division 3 Icon" />
           <h3>Division 3</h3>
           <p><strong>Prize:</strong> Discord Privileges</p>
-          <p>Perfect for newcomers and casual players. Experience the thrill without any entry fee.</p>
-          <a href="#applyDiv3" class="apply-btn"><i class="fas fa-arrow-right"></i> Apply</a>
+          <p>Perfect for newcomers and casual players. Get in the game with zero entry fees!</p>
+          <a href="#applyDiv3" class="apply-btn">
+            <i class="fas fa-arrow-right"></i> Apply
+          </a>
+          <div class="team-count">
+            <span>Teams:</span>
+            <span>20</span>
+          </div>
         </div>
       </div>
+      <!-- Removed any undesired line below division cards if present -->
     </section>
-    
-    <!-- LIVE BYOT SECTION -->
+
+    <!-- LIVE BYOT -->
     <section class="live-byot-section" data-aos="fade-up">
       <h2>Watch the Finals of the BYOT</h2>
       <div class="live-byot-content">
-        <iframe src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID"
-                title="Live BYOT"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-        </iframe>
+        <iframe
+          src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID"
+          title="Live BYOT"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
     </section>
   </main>
-  
+
   <!-- FOOTER -->
   <footer>
     <ul class="footer-nav">
@@ -1225,11 +1243,15 @@
       <li><a href="https://discord.gg/example" target="_blank"><i class="fab fa-discord"></i> Discord</a></li>
     </ul>
     
-    <a href="#rulesGuidelines" class="rules-button"><i class="fas fa-book"></i> Rules and Guidelines</a>
+    <a href="#rulesGuidelines" class="rules-button">
+      <i class="fas fa-book"></i> Rules and Guidelines
+    </a>
     
     <div class="footer-support">
       <p>Need help?
-        <a href="https://discord.gg/example"><i class="fab fa-discord"></i> Join our Discord Help Desk</a>
+        <a href="https://discord.gg/example">
+          <i class="fab fa-discord"></i> Join our Discord Help Desk
+        </a>
       </p>
     </div>
     
@@ -1237,16 +1259,16 @@
       © 2024 Quest for Glory. All Rights Reserved. Not affiliated with EA Sports or its licensors.
     </div>
   </footer>
-  
+
   <!-- Swiper.js JS -->
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-  
+
   <!-- AOS JS -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  
+
   <!-- Main JS -->
   <script>
-    // Initialize Swiper for Hero
+    // Initialize Swiper (Hero)
     var heroSwiper = new Swiper('.hero .swiper-container', {
       loop: true,
       autoplay: { delay: 5000, disableOnInteraction: false },
@@ -1254,8 +1276,8 @@
       effect: 'fade',
       fadeEffect: { crossFade: true },
     });
-    
-    // Initialize Swiper for Partners Carousel
+
+    // Initialize Swiper (Partners)
     var partnersSwiper = new Swiper('.partner-carousel', {
       loop: true,
       autoplay: { delay: 3000, disableOnInteraction: false },
@@ -1269,11 +1291,11 @@
       },
       pagination: { el: '.partner-carousel .swiper-pagination', clickable: true },
     });
-    
+
     // Initialize AOS
     AOS.init({ duration: 800, once: true, easing: 'ease-in-out' });
-    
-    // Hamburger Menu Toggle
+
+    // Hamburger Menu
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     hamburger.addEventListener('click', () => {
@@ -1290,8 +1312,8 @@
         hamburger.setAttribute('aria-expanded', 'false');
       });
     });
-    
-    // Header Scroll Effect
+
+    // Header Scroll Effect (Optional: Add styles for .scrolled if desired)
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
       if (window.scrollY > 50) {
@@ -1300,31 +1322,26 @@
         header.classList.remove('scrolled');
       }
     });
-    
-    // Smooth Scroll for Internal Links
+
+    // Smooth Scroll for internal links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+      anchor.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
         if (!href.startsWith('#')) return;
-        
         e.preventDefault();
         const target = document.querySelector(href);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
       });
     });
-    
-    // -----------------------------
-    // OAuth2 & Session Handling
-    // -----------------------------
+
+    // OAuth2 & Session
     const userInfo = document.getElementById('userInfo');
     const userNameSpan = document.getElementById('userName');
     const userProfilePic = document.getElementById('userProfilePic');
     const userProfileLink = document.getElementById('userProfileLink');
     const signOutButton = document.getElementById('signOutButton');
     const authButtons = document.querySelectorAll('.auth-buttons');
-    
+
     function setSession(data) {
       sessionStorage.setItem('q4gUser', JSON.stringify(data));
     }
@@ -1340,10 +1357,10 @@
       if (user) displayUserInfo(user);
     }
     function displayUserInfo(user) {
-      userNameSpan.textContent = `${user.username}#${user.discriminator}`;
+      userNameSpan.textContent = user.username;
       userProfilePic.src = user.avatar
         ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
-        : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator) % 5}.png`;
+        : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.id) % 5}.png`;
       userProfileLink.href = `https://discord.com/users/${user.id}`;
       userInfo.classList.remove('hidden');
       authButtons.forEach(btn => btn.classList.add('hidden'));
@@ -1365,6 +1382,7 @@
         handleSignOut();
       });
     }
+
     async function handleOAuth2Callback() {
       const params = new URLSearchParams(window.location.search);
       const code = params.get('code');
@@ -1390,8 +1408,8 @@
       handleOAuth2Callback();
       fetchUserData();
     });
-    
-    // Countdown Timer Script
+
+    // Countdown Timer (Optional)
     document.addEventListener('DOMContentLoaded', () => {
       const countdownElement = document.getElementById("countdown");
       if (countdownElement) {
@@ -1403,15 +1421,19 @@
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          
-          document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-          document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-          document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-          document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-          
+
+          if (document.getElementById("days")) {
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+          }
+
           if (distance < 0) {
             clearInterval(countdownFunction);
-            countdownElement.innerHTML = "Tournament Started!";
+            if (countdownElement) {
+              countdownElement.innerHTML = "Tournament Started!";
+            }
           }
         }, 1000);
       }
