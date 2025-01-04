@@ -1151,15 +1151,16 @@
         </div>
       </div>
       <!-- Moved Discord Button to Below the Steps -->
-      <button
-        id="discordJoinButton"
+      <a
         class="discord-btn"
+        href="https://discord.gg/example"
+        target="_blank"
         aria-label="Join Quest for Glory Discord Server"
         data-aos="zoom-in"
         data-aos-delay="500"
       >
         <i class="fab fa-discord"></i> Join Discord
-      </button>
+      </a>
     </section>
 
     <!-- OUR DIVISIONS (Redesigned) -->
@@ -1333,7 +1334,10 @@
       });
     });
 
-    // OAuth2 & Session Simulation
+    /* ===========================
+       OAuth2 Login Flow
+    ============================ */
+    // OAuth2 & Session Handling
     const userInfo = document.getElementById('userInfo');
     const userNameSpan = document.getElementById('userName');
     const userProfilePic = document.getElementById('userProfilePic');
@@ -1342,8 +1346,21 @@
     const authButtons = document.querySelectorAll('.auth-buttons');
     const loginButton = document.getElementById('loginButton');
     const mobileLoginButton = document.getElementById('mobileLoginButton');
-    const discordJoinButton = document.getElementById('discordJoinButton');
+    const discordJoinButton = document.querySelector('.discord-btn');
 
+    // ===========================
+    // Configuration
+    // ===========================
+    const CLIENT_ID = '1324622665323118642';
+    const CLIENT_SECRET = 'YOUR_CLIENT_SECRET'; // Replace with your actual client secret
+    const REDIRECT_URI = 'https://alexg0dev.github.io/qg/';
+    const TOKEN_ENDPOINT = 'https://discord.com/api/oauth2/token';
+    const USER_ENDPOINT = 'https://discord.com/api/users/@me';
+    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'; // For testing only. Use a secure backend in production.
+
+    // ===========================
+    // Session Management
+    // ===========================
     function setSession(data) {
       sessionStorage.setItem('q4gUser', JSON.stringify(data));
     }
@@ -1363,7 +1380,7 @@
     function displayUserInfo(user) {
       userNameSpan.textContent = user.username;
       userProfilePic.src = user.avatar
-        ? user.avatar
+        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
         : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.id) % 5}.png`;
       userProfileLink.href = `https://discord.com/users/${user.id}`;
       userInfo.classList.remove('hidden');
@@ -1382,40 +1399,76 @@
       alert('You have been signed out.');
     }
 
-    // Function to simulate login
-    function simulateLogin() {
-      // Prompt user for Discord username and avatar URL
-      const username = prompt("Enter your Discord Username:");
-      if (!username) {
-        alert("Username is required to log in.");
-        return;
+    // ===========================
+    // OAuth2 Functions
+    // ===========================
+    async function handleOAuthLogin(code) {
+      try {
+        // Exchange authorization code for access token
+        const params = new URLSearchParams();
+        params.append('client_id', CLIENT_ID);
+        params.append('client_secret', CLIENT_SECRET);
+        params.append('grant_type', 'authorization_code');
+        params.append('code', code);
+        params.append('redirect_uri', REDIRECT_URI);
+        params.append('scope', 'identify email');
+
+        const response = await fetch(`${CORS_PROXY}${TOKEN_ENDPOINT}`, {
+          method: 'POST',
+          body: params,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error_description || 'Token exchange failed.');
+        }
+
+        const accessToken = data.access_token;
+
+        // Fetch user info
+        const userResponse = await fetch(USER_ENDPOINT, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+
+        const userData = await userResponse.json();
+
+        if (!userResponse.ok) {
+          throw new Error(userData.message || 'Failed to fetch user data.');
+        }
+
+        setSession(userData);
+        displayUserInfo(userData);
+
+        // Remove code from URL
+        window.history.replaceState({}, document.title, REDIRECT_URI);
+      } catch (error) {
+        console.error('OAuth2 Error:', error);
+        alert('Authentication failed. Please try again.');
       }
-      const avatar = prompt("Enter the URL of your Discord Profile Picture (leave blank for default):");
-      
-      // Generate a fake user ID (for demonstration purposes)
-      const userId = '123456789012345678'; // This should ideally be unique
-
-      // Create user data object
-      const userData = {
-        id: userId,
-        username: username,
-        avatar: avatar ? avatar : null
-      };
-
-      // Save to session
-      setSession(userData);
-      displayUserInfo(userData);
     }
 
-    // Event listeners for login buttons
+    // ===========================
+    // Event Listeners
+    // ===========================
+    // Event listener for login buttons
     if (loginButton) {
       loginButton.addEventListener('click', () => {
-        simulateLogin();
+        // Redirect user to Discord OAuth2 authorization URL
+        const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=identify%20email`;
+        window.location.href = discordAuthUrl;
       });
     }
     if (mobileLoginButton) {
       mobileLoginButton.addEventListener('click', () => {
-        simulateLogin();
+        // Redirect user to Discord OAuth2 authorization URL
+        const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=identify%20email`;
+        window.location.href = discordAuthUrl;
       });
     }
 
@@ -1433,12 +1486,20 @@
       });
     }
 
-    // Initialize user data on page load
+    // Initialize user data on page load and handle OAuth2 callback
     window.addEventListener('DOMContentLoaded', () => {
-      fetchUserData();
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      if (code) {
+        handleOAuthLogin(code);
+      } else {
+        fetchUserData();
+      }
     });
 
-    // Countdown Timer (Optional)
+    /* ===========================
+       Countdown Timer (Optional)
+    ============================ */
     document.addEventListener('DOMContentLoaded', () => {
       const countdownElement = document.getElementById("countdown");
       if (countdownElement) {
