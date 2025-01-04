@@ -1026,13 +1026,13 @@
       </ul>
       <div class="auth-buttons">
         <!-- Login Button (animated) -->
-        <a
-          href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fqg%2F&scope=identify%20email"
+        <button
+          id="loginButton"
           aria-label="Login with Discord"
           class="login-btn"
         >
           <i class="fas fa-sign-in-alt"></i> Login
-        </a>
+        </button>
       </div>
       <div class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
         <div></div>
@@ -1057,13 +1057,13 @@
       </ul>
       <div class="auth-buttons">
         <!-- Login Button -->
-        <a
-          href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fqg%2F&scope=identify%20email"
+        <button
+          id="mobileLoginButton"
           aria-label="Login with Discord"
           class="login-btn"
         >
           <i class="fas fa-sign-in-alt"></i> Login
-        </a>
+        </button>
       </div>
     </div>
   </header>
@@ -1151,16 +1151,15 @@
         </div>
       </div>
       <!-- Moved Discord Button to Below the Steps -->
-      <a
+      <button
+        id="discordJoinButton"
         class="discord-btn"
-        href="https://discord.gg/example"
-        target="_blank"
         aria-label="Join Quest for Glory Discord Server"
         data-aos="zoom-in"
         data-aos-delay="500"
       >
         <i class="fab fa-discord"></i> Join Discord
-      </a>
+      </button>
     </section>
 
     <!-- OUR DIVISIONS (Redesigned) -->
@@ -1334,13 +1333,16 @@
       });
     });
 
-    // OAuth2 & Session
+    // OAuth2 & Session Simulation
     const userInfo = document.getElementById('userInfo');
     const userNameSpan = document.getElementById('userName');
     const userProfilePic = document.getElementById('userProfilePic');
     const userProfileLink = document.getElementById('userProfileLink');
     const signOutButton = document.getElementById('signOutButton');
     const authButtons = document.querySelectorAll('.auth-buttons');
+    const loginButton = document.getElementById('loginButton');
+    const mobileLoginButton = document.getElementById('mobileLoginButton');
+    const discordJoinButton = document.getElementById('discordJoinButton');
 
     function setSession(data) {
       sessionStorage.setItem('q4gUser', JSON.stringify(data));
@@ -1354,12 +1356,14 @@
     }
     async function fetchUserData() {
       const user = getSession();
-      if (user) displayUserInfo(user);
+      if (user) {
+        displayUserInfo(user);
+      }
     }
     function displayUserInfo(user) {
       userNameSpan.textContent = user.username;
       userProfilePic.src = user.avatar
-        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+        ? user.avatar
         : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.id) % 5}.png`;
       userProfileLink.href = `https://discord.com/users/${user.id}`;
       userInfo.classList.remove('hidden');
@@ -1377,35 +1381,60 @@
       hideUserInfo();
       alert('You have been signed out.');
     }
+
+    // Function to simulate login
+    function simulateLogin() {
+      // Prompt user for Discord username and avatar URL
+      const username = prompt("Enter your Discord Username:");
+      if (!username) {
+        alert("Username is required to log in.");
+        return;
+      }
+      const avatar = prompt("Enter the URL of your Discord Profile Picture (leave blank for default):");
+      
+      // Generate a fake user ID (for demonstration purposes)
+      const userId = '123456789012345678'; // This should ideally be unique
+
+      // Create user data object
+      const userData = {
+        id: userId,
+        username: username,
+        avatar: avatar ? avatar : null
+      };
+
+      // Save to session
+      setSession(userData);
+      displayUserInfo(userData);
+    }
+
+    // Event listeners for login buttons
+    if (loginButton) {
+      loginButton.addEventListener('click', () => {
+        simulateLogin();
+      });
+    }
+    if (mobileLoginButton) {
+      mobileLoginButton.addEventListener('click', () => {
+        simulateLogin();
+      });
+    }
+
+    // Event listener for Discord join button (optional: can integrate with actual Discord invite)
+    if (discordJoinButton) {
+      discordJoinButton.addEventListener('click', () => {
+        window.open("https://discord.gg/example", "_blank");
+      });
+    }
+
+    // Event listener for sign out button
     if (signOutButton) {
       signOutButton.addEventListener('click', () => {
         handleSignOut();
       });
     }
 
-    async function handleOAuth2Callback() {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get('code');
-      if (code) {
-        try {
-          const response = await fetch('/.netlify/functions/discord-callback', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code, redirect_uri: 'https://alexg0dev.github.io/qg/' })
-          });
-          if (!response.ok) throw new Error('Token exchange failed.');
-          const data = await response.json();
-          setSession(data.user);
-          displayUserInfo(data.user);
-          window.history.replaceState({}, document.title, 'https://alexg0dev.github.io/qg/');
-        } catch (error) {
-          console.error('Error during OAuth2 callback:', error);
-          alert('Authentication failed. Please try again.');
-        }
-      }
-    }
+    // Initialize user data on page load
     window.addEventListener('DOMContentLoaded', () => {
-      handleOAuth2Callback();
       fetchUserData();
     });
 
