@@ -31,6 +31,8 @@
 
   <!-- Main Styles -->
   <style>
+    /* [Your existing CSS styles here] */
+
     :root {
       --q4g-orange: #FF6700;
       --q4g-red: #FF0000;
@@ -278,6 +280,9 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
     }
     .user-info img {
       width: 40px; height: 40px;
@@ -578,7 +583,6 @@
     .discord-btn {
       margin-top: 3rem;
       padding: 0.75rem 1.5rem;
-      background: #7289DA;
       color: #fff;
       border: none;
       border-radius: 30px;
@@ -596,6 +600,7 @@
       opacity: 0;
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
     .discord-btn::before {
       content: '';
@@ -644,8 +649,6 @@
       transform: translateX(-50%);
       border-radius: 2px;
     }
-
-    /* Removed the undesired line below the division cards by ensuring only h2::after is present */
 
     .divisions-container {
       display: grid;
@@ -1344,32 +1347,29 @@
     const userProfileLink = document.getElementById('userProfileLink');
     const signOutButton = document.getElementById('signOutButton');
     const authButtons = document.querySelectorAll('.auth-buttons');
-    const loginButton = document.getElementById('loginButton');
-    const mobileLoginButton = document.getElementById('mobileLoginButton');
+    const loginButtonElem = document.getElementById('loginButton');
+    const mobileLoginButtonElem = document.getElementById('mobileLoginButton');
     const discordJoinButton = document.querySelector('.discord-btn');
 
     // ===========================
     // Configuration
     // ===========================
     const CLIENT_ID = '1324622665323118642';
-    const CLIENT_SECRET = 'ZavcjDgRv3hRBOdgyVQeY4Hj66-gKumP'; // Replace with your actual client secret
-    const REDIRECT_URI = 'https://alexg0dev.github.io/qg/';
-    const TOKEN_ENDPOINT = 'https://discord.com/api/oauth2/token';
-    const USER_ENDPOINT = 'https://discord.com/api/users/@me';
-    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'; // For testing only. Use a secure backend in production.
+    const REDIRECT_URI = 'https://alexg0dev.github.io/qg/'; // Ensure this matches your Netlify redirect URI
+    const BACKEND_TOKEN_ENDPOINT = '/.netlify/functions/discord-oauth'; // Relative path to the Netlify Function
 
     // ===========================
     // Session Management
     // ===========================
     function setSession(data) {
-      sessionStorage.setItem('q4gUser', JSON.stringify(data));
+      localStorage.setItem('q4gUser', JSON.stringify(data));
     }
     function getSession() {
-      const user = sessionStorage.getItem('q4gUser');
+      const user = localStorage.getItem('q4gUser');
       return user ? JSON.parse(user) : null;
     }
     function clearSession() {
-      sessionStorage.removeItem('q4gUser');
+      localStorage.removeItem('q4gUser');
     }
     async function fetchUserData() {
       const user = getSession();
@@ -1402,23 +1402,13 @@
     // ===========================
     // OAuth2 Functions
     // ===========================
-    async function handleOAuthLogin(code) {
+    async function handleOAuthCallback(code) {
       try {
-        // Exchange authorization code for access token
-        const params = new URLSearchParams();
-        params.append('client_id', CLIENT_ID);
-        params.append('client_secret', CLIENT_SECRET);
-        params.append('grant_type', 'authorization_code');
-        params.append('code', code);
-        params.append('redirect_uri', REDIRECT_URI);
-        params.append('scope', 'identify email');
-
-        const response = await fetch(`${CORS_PROXY}${TOKEN_ENDPOINT}`, {
+        // Send the code to the backend to exchange for an access token
+        const response = await fetch(BACKEND_TOKEN_ENDPOINT, {
           method: 'POST',
-          body: params,
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code }),
         });
 
         const data = await response.json();
@@ -1429,8 +1419,8 @@
 
         const accessToken = data.access_token;
 
-        // Fetch user info
-        const userResponse = await fetch(USER_ENDPOINT, {
+        // Fetch user info from Discord
+        const userResponse = await fetch('https://discord.com/api/users/@me', {
           headers: {
             'Authorization': `Bearer ${accessToken}`,
           },
@@ -1442,7 +1432,10 @@
           throw new Error(userData.message || 'Failed to fetch user data.');
         }
 
+        // Store user data in localStorage
         setSession(userData);
+
+        // Display user info
         displayUserInfo(userData);
 
         // Remove code from URL
@@ -1457,20 +1450,13 @@
     // Event Listeners
     // ===========================
     // Event listener for login buttons
-    if (loginButton) {
-      loginButton.addEventListener('click', () => {
-        // Redirect user to Discord OAuth2 authorization URL
-        const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=identify%20email`;
-        window.location.href = discordAuthUrl;
-      });
+    async function initiateOAuth() {
+      const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=identify`;
+      window.location.href = discordAuthUrl;
     }
-    if (mobileLoginButton) {
-      mobileLoginButton.addEventListener('click', () => {
-        // Redirect user to Discord OAuth2 authorization URL
-        const discordAuthUrl = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=identify%20email`;
-        window.location.href = discordAuthUrl;
-      });
-    }
+
+    loginButtonElem.addEventListener('click', initiateOAuth);
+    mobileLoginButtonElem.addEventListener('click', initiateOAuth);
 
     // Event listener for Discord join button (optional: can integrate with actual Discord invite)
     if (discordJoinButton) {
@@ -1491,7 +1477,7 @@
       const params = new URLSearchParams(window.location.search);
       const code = params.get('code');
       if (code) {
-        handleOAuthLogin(code);
+        handleOAuthCallback(code);
       } else {
         fetchUserData();
       }
