@@ -1,58 +1,48 @@
 // server.js
 
+// Load environment variables from .env file
 require('dotenv').config();
+
 const express = require('express');
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
 const bodyParser = require('body-parser');
+const axios = require('axios');
+const fs = require('fs-extra');
+const path = require('path');
 const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// =============================
-// Configuration
-// =============================
-
-// Ensure you have a .env file with the following variables:
-// CLIENT_ID=your_discord_client_id
-// CLIENT_SECRET=your_discord_client_secret
-// REDIRECT_URI=https://alexg0dev.github.io/qg/
-// FRONTEND_URL=https://alexg0dev.github.io/qg/ (Optional, for CORS)
-
-const CLIENT_ID = process.env.CLIENT_ID || '1324622665323118642'; // As per your OAuth2 link
-const CLIENT_SECRET = process.env.CLIENT_SECRET; // Should be set in .env
-const REDIRECT_URI = process.env.REDIRECT_URI || 'https://alexg0dev.github.io/qg/';
-const TOKEN_ENDPOINT = 'https://discord.com/api/oauth2/token';
-const USER_API_ENDPOINT = 'https://discord.com/api/users/@me';
-
-// Path to profiles.json
-const PROFILES_FILE = path.join(__dirname, 'profiles.json');
-
-// =============================
-// Middleware
-// =============================
-
+// Middleware Setup
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Configure CORS to allow requests from your frontend
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://alexg0dev.github.io',
+  origin: 'https://alexg0dev.github.io', // Replace with your actual frontend URL
+  methods: ['POST'],
+  allowedHeaders: ['Content-Type']
 }));
 
-// =============================
-// Initialize profiles.json
-// =============================
+// Function to Save User Profiles to profiles.json
+const saveProfile = async (profile) => {
+  const filePath = path.join(__dirname, 'profiles.json');
+  let profiles = [];
 
-if (!fs.existsSync(PROFILES_FILE)) {
-  fs.writeFileSync(PROFILES_FILE, JSON.stringify([]));
-}
+  // Check if profiles.json exists
+  if (await fs.pathExists(filePath)) {
+    profiles = JSON.parse(await fs.readFile(filePath, 'utf8'));
+  }
 
-// =============================
-// Routes
-// =============================
+  // Append new profile
+  profiles.push(profile);
 
-// Endpoint to handle OAuth2 code from frontend
-app.post('/callback', async (req, res) => {
+  // Write updated profiles back to profiles.json
+  await fs.writeFile(filePath, JSON.stringify(profiles, null, 2));
+};
+
+// POST OAuth2 Callback Route
+app.post('/oauth/callback', async (req, res) => {
   const { code } = req.body;
 
   if (!code) {
@@ -60,83 +50,57 @@ app.post('/callback', async (req, res) => {
   }
 
   try {
-    // Exchange code for access token
+    // Exchange Code for Access Token
     const tokenResponse = await axios.post(
-      TOKEN_ENDPOINT,
+      'https://discord.com/api/oauth2/token',
       new URLSearchParams({
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
+        client_id: process.env.DISCORD_CLIENT_ID,
+        client_secret: process.env.DISCORD_CLIENT_SECRET,
         grant_type: 'authorization_code',
         code: code,
-        redirect_uri: REDIRECT_URI,
-        scope: 'email identify',
+        redirect_uri: process.env.REDIRECT_URI,
+        scope: 'identify email'
       }),
       {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       }
     );
 
     const accessToken = tokenResponse.data.access_token;
 
-    // Fetch user information from Discord
-    const userResponse = await axios.get(USER_API_ENDPOINT, {
+    // Fetch User Information
+    const userResponse = await axios.get('https://discord.com/api/users/@me', {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+        Authorization: `Bearer ${accessToken}`
+      }
     });
 
     const user = userResponse.data;
 
-    // Prepare user data
-    const userData = {
+    // Prepare User Profile Data
+    const profile = {
       id: user.id,
-      username: user.username,
-      discriminator: user.discriminator,
+      username: `${user.username}#${user.discriminator}`,
       avatar: user.avatar
         ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
         : null,
-      email: user.email, // Since you requested 'email' scope
+      email: user.email || 'No Email Provided'
     };
 
-    // Read existing profiles
-    const profilesData = JSON.parse(fs.readFileSync(PROFILES_FILE, 'utf-8'));
+    // Save Profile to profiles.json
+    await saveProfile(profile);
 
-    // Check if user already exists
-    const existingUserIndex = profilesData.findIndex((u) => u.id === user.id);
-
-    if (existingUserIndex === -1) {
-      // Add new user
-      profilesData.push(userData);
-    } else {
-      // Update existing user
-      profilesData[existingUserIndex] = userData;
-    }
-
-    // Save updated profiles to profiles.json
-    fs.writeFileSync(PROFILES_FILE, JSON.stringify(profilesData, null, 2));
-
-    // Respond back to frontend with user data
-    res.json({ success: true, user: userData });
+    // Respond with Success and User Data
+    res.json({ success: true, user: profile });
   } catch (error) {
-    console.error('Error during OAuth2 callback:', error.response?.data || error.message);
-    res.status(500).json({ success: false, message: 'Authentication failed.' });
+    console.error('Error during OAuth callback:', error.response ? error.response.data : error.message);
+    res.status(500).json({ success: false, message: 'An error occurred during the OAuth process.' });
   }
 });
 
-// Optional: Endpoint to fetch all saved profiles
-app.get('/profiles', (req, res) => {
-  try {
-    const profilesData = JSON.parse(fs.readFileSync(PROFILES_FILE, 'utf-8'));
-    res.json(profilesData);
-  } catch (error) {
-    console.error('Error reading profiles.json:', error.message);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-// Start the server
+// Start Server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

@@ -31,6 +31,7 @@
 
   <!-- Main Styles -->
   <style>
+    /* [Your existing CSS styles here] */
     :root {
       --q4g-orange: #FF6700;
       --q4g-red: #FF0000;
@@ -282,6 +283,7 @@
       top: 1rem;
       right: 2rem;
       transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+      z-index: 1001; /* Ensure it stays above the header */
     }
     .user-info img {
       width: 40px; height: 40px;
@@ -431,7 +433,7 @@
       box-shadow: 0 8px 16px rgba(0,0,0,0.5);
     }
 
-    /* PARTNERS */
+    /* PARTNERS (Centered) */
     .partners-section {
       background: #141414;
       padding: 4rem 2rem;
@@ -1045,9 +1047,9 @@
         <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
       </ul>
       <div class="auth-buttons">
-        <!-- Updated to use Railway Backend OAuth2 Login URL -->
+        <!-- OAuth Login Button -->
         <a
-          href="https://your-railway-backend-url.com/login"
+          href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fquest%2F&scope=identify+email+guilds+connections"
           aria-label="Login with Discord"
           class="login-btn"
           id="loginButton"
@@ -1063,7 +1065,7 @@
     </nav>
     <!-- USER INFO (hidden by default) -->
     <div class="user-info hidden" id="userInfo">
-      <a href="https://discord.com/users/" id="userProfileLink" target="_blank">
+      <a href="#" id="userProfileLink" target="_blank">
         <img src="" alt="User Profile Picture" id="userProfilePic" />
       </a>
       <span id="userName"></span>
@@ -1079,9 +1081,9 @@
         <li><a href="#"><i class="fas fa-star"></i> Power Rankings</a></li>
       </ul>
       <div class="auth-buttons">
-        <!-- Updated to use Railway Backend OAuth2 Login URL -->
+        <!-- OAuth Login Button for Mobile -->
         <a
-          href="https://your-railway-backend-url.com/login"
+          href="https://discord.com/oauth2/authorize?client_id=1324622665323118642&response_type=code&redirect_uri=https%3A%2F%2Falexg0dev.github.io%2Fquest%2F&scope=identify+email+guilds+connections"
           aria-label="Login with Discord"
           class="login-btn"
           id="mobileLoginButton"
@@ -1383,9 +1385,10 @@
       const code = urlParams.get('code');
 
       if (code) {
-        // Replace 'https://your-railway-backend-url.com' with your actual Railway backend URL
-        const backendURL = 'https://your-railway-backend-url.com';
+        // Backend URL as provided
+        const backendURL = 'https://quest-production-5c69.up.railway.app';
 
+        // Send the code to the backend for processing
         fetch(`${backendURL}/oauth/callback`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1400,7 +1403,7 @@
               const userProfilePic = document.getElementById('userProfilePic');
               const userProfileLink = document.getElementById('userProfileLink');
 
-              userNameSpan.textContent = `${data.user.username}#${data.user.discriminator}`;
+              userNameSpan.textContent = `${data.user.username}`;
               userProfilePic.src = data.user.avatar;
               userProfileLink.href = `https://discord.com/users/${data.user.id}`;
 
